@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from collections_hierarchy.main import *
+from collections_hierarchy.main_collections import *
 
 
 class ListTestCase(unittest.TestCase):
@@ -19,6 +19,9 @@ class ListTestCase(unittest.TestCase):
     def test_list_add(self):
         l1 = List([2, 4, 6, 8, 10])
         l2 = l1 + List([20, 30, 40])
+        # l2 = [2, 4, 5, 6, 10 , 20, 30 , 40]
+        
+        print(str(l2))
         self.assertEqual(l1, List([2, 4, 6, 8, 10]))
         self.assertEqual(l2, List([2, 4, 6, 8, 10, 20, 30, 40]))
         self.assertNotEqual(id(l1), id(l2))
@@ -65,3 +68,10 @@ class ListTestCase(unittest.TestCase):
     def test_list_str(self):
         l1 = List([2, 4, 6, 8, 10])
         self.assertEqual(str(l1), "[2, 4, 6, 8, 10]")
+        
+    # below are tests we added
+    def test_list_del(self):
+        l1 = List([2,4,6,8,10])
+        del l1[2]
+        self.assertEqual(l1, List([2,4,8,10]))
+        
