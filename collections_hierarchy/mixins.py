@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-class ComparableMixin(object):# List & Dict
+class ComparableMixin(object): # Subclassed in List & Dict
     def __eq__(self, other):
         data = getattr(
             self,
@@ -44,7 +44,7 @@ class ComparableMixin(object):# List & Dict
         return not self < other
 
 
-class SequenceMixin(object): # List & Dict
+class SequenceMixin(object): # Subclassed in List & Dict
     def __iter__(self):
         return iter(self.get_elements())
 
@@ -84,7 +84,7 @@ class SequenceMixin(object): # List & Dict
         return any([elem == item for elem in self])
 
 
-class RepresentableMixin(object): # List & Dict
+class RepresentableMixin(object): # Subclassed in List & Dict
     def __repr__(self):
         return str(self)
 
@@ -96,7 +96,7 @@ class RepresentableMixin(object): # List & Dict
         return str(data)
 
 
-class ConstructibleMixin(object): # List & Dict
+class ConstructibleMixin(object): # Subclassed in List & Dict
     DATA_ATTR_NAME = 'data'
 
     def __init__(self, initial=None):
@@ -107,7 +107,7 @@ class ConstructibleMixin(object): # List & Dict
         )
         
         
-class OperableMixin(object): # List
+class OperableMixin(object): # Subclassed in List
     def __add__(self, other):
         new_obj = deepcopy(self)
         for elem in other:
@@ -118,12 +118,12 @@ class OperableMixin(object): # List
         return self + other
 
 
-class AppendableMixin(object): # List
+class AppendableMixin(object): # Subclassed in List
     def append(self, elem):
         self[len(self):] = [elem]
 
 
-class HashableMixin(object): # Dict
+class HashableMixin(object): # Subclassed in Dict
     def keys(self):
         return list(iter(self))
 
@@ -134,7 +134,7 @@ class HashableMixin(object): # Dict
         return [(key, self[key]) for key in self.keys()]
 
 
-class IndexableMixin(object): # List
+class IndexableMixin(object): # Subclassed in List
     def index(self, x):
         for i, elem in enumerate(self):
             if elem == x:
