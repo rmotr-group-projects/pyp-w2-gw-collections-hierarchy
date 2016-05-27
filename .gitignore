@@ -49,6 +49,9 @@ coverage.xml
 *.mo
 *.pot
 
+# c9 junk
+*.c9*
+
 # Django stuff:
 *.log
 
