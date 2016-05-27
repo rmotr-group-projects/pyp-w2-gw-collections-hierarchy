@@ -25,7 +25,6 @@ class ComparableMixin(object):
 class SequenceMixin(object):
     def __iter__(self):
         # This is called at the start of an iteration
-
         return iter(self.get_elements())
 
         # alternate way to do it:
@@ -34,7 +33,7 @@ class SequenceMixin(object):
 
     def __next__(self): 
         # steps through all elements, raises StopIteration at the end
-        return next(iter(self.get_elements()))
+        return next(iter(self))#.get_elements()))
 
         # alternate way to do it:
         # loop through all elements given by get_elements

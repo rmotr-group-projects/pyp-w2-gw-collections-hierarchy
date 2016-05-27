@@ -12,7 +12,6 @@ class List(ComparableMixin,
 
     def get_elements(self):
         # returns a list of the elements in List
-        # return eval('self.' + self.DATA_ATTR_NAME) <= another way to do it...
         return getattr(self, self.DATA_ATTR_NAME)
 
 class Dict(HashableMixin,
