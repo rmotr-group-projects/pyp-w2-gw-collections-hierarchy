@@ -1,87 +1,143 @@
-class ComparableMixin(object):
+from copy import deepcopy
+
+class ComparableMixin(object):# List & Dict
     def __eq__(self, other):
-        pass
+        data = getattr(
+            self,
+            self.DATA_ATTR_NAME
+        )
+        data2 = getattr(
+            other,
+            other.DATA_ATTR_NAME
+        )
+        return data == data2
 
     def __ne__(self, other):
         return not self == other
 
     def __lt__(self, other):
-        pass
+        data = getattr(
+            self,
+            self.DATA_ATTR_NAME
+        )
+        data2 = getattr(
+            other,
+            other.DATA_ATTR_NAME
+        )
+        return data < data2
 
     def __gt__(self, other):
-        pass
+        data = getattr(
+            self,
+            self.DATA_ATTR_NAME
+        )
+        data2 = getattr(
+            other,
+            other.DATA_ATTR_NAME
+        )
+        return data > data2
 
     def __le__(self, other):
-        pass
+        return not self > other
 
     def __ge__(self, other):
-        pass
+        return not self < other
 
 
-class SequenceMixin(object):
+class SequenceMixin(object): # List & Dict
     def __iter__(self):
-        pass
+        return iter(self.get_elements())
 
     def __next__(self):
-        pass
+        return next(iter(self))
 
     next = __next__
 
     def __len__(self):
-        pass
+        return sum([1 for item in self])
+    
+    def count(self):
+        return len(self)
 
     def __getitem__(self, key):
-        pass
+        data = getattr(
+            self,
+            self.DATA_ATTR_NAME
+        )
+        return data[key]
 
     def __setitem__(self, key, value):
-        pass
+        data = getattr(
+            self,
+            self.DATA_ATTR_NAME
+        )
+        data[key] = value
 
     def __delitem__(self, key):
-        pass
+        data = getattr(
+            self,
+            self.DATA_ATTR_NAME
+        )
+        del data[key]
 
     def __contains__(self, item):
-        pass
+        return any([elem == item for elem in self])
 
 
-class RepresentableMixin(object):
+class RepresentableMixin(object): # List & Dict
     def __repr__(self):
-        pass
+        return str(self)
 
     def __str__(self):
-        pass
+        data = getattr(
+            self,
+            self.DATA_ATTR_NAME
+        )
+        return str(data)
 
 
-class ConstructibleMixin(object):
+class ConstructibleMixin(object): # List & Dict
     DATA_ATTR_NAME = 'data'
 
     def __init__(self, initial=None):
-        pass
-
-
-class OperableMixin(object):
+        setattr(
+            self,
+            self.DATA_ATTR_NAME,
+            initial or self.DATA_DEFAULT_INITIAL
+        )
+        
+        
+class OperableMixin(object): # List
     def __add__(self, other):
-        pass
+        new_obj = deepcopy(self)
+        for elem in other:
+            new_obj.append(elem)
+        return new_obj
 
     def __iadd__(self, other):
-        pass
+        return self + other
 
 
-class AppendableMixin(object):
+class AppendableMixin(object): # List
     def append(self, elem):
-        pass
+        self[len(self):] = [elem]
 
 
-class HashableMixin(object):
+class HashableMixin(object): # Dict
     def keys(self):
-        pass
+        return list(iter(self))
 
     def values(self):
-        pass
+        return [self[key] for key in self.keys()]
 
     def items(self):
-        pass
+        return [(key, self[key]) for key in self.keys()]
 
 
-class IndexableMixin(object):
+class IndexableMixin(object): # List
     def index(self, x):
-        pass
+        for i, elem in enumerate(self):
+            if elem == x:
+                return i
+        
+        raise ValueError('item "{}" not found'.format(x))
