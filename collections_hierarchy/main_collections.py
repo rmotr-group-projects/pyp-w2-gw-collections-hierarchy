@@ -1,3 +1,7 @@
+'''
+We only define get_elements methods, nothing else.
+'''
+
 from collections_hierarchy.mixins import *
 
 
@@ -11,7 +15,8 @@ class List(ComparableMixin,
     DATA_DEFAULT_INITIAL = []
 
     def get_elements(self):
-        pass
+        # we define this.
+        return getattr(self, self.DATA_ATTR_NAME)
 
 
 class Dict(HashableMixin,
@@ -22,4 +27,5 @@ class Dict(HashableMixin,
     DATA_DEFAULT_INITIAL = {}
 
     def get_elements(self):
-        pass
+        # we define this.
+        return getattr(self, self.DATA_ATTR_NAME).keys()
