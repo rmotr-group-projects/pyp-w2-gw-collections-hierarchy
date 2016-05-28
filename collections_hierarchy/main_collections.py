@@ -10,12 +10,9 @@ class List(ComparableMixin,
            AppendableMixin):
     DATA_DEFAULT_INITIAL = []
     
-    def __init__(self, values):
-        self.values = values
-        self.i = -1
-
     def get_elements(self):
-        pass
+        #returns a list of elements 
+        return getattr(self, self.DATA_ATTR_NAME)
 
 
 class Dict(HashableMixin,
@@ -24,10 +21,6 @@ class Dict(HashableMixin,
            RepresentableMixin,
            ConstructibleMixin):
     DATA_DEFAULT_INITIAL = {}
-    
-    def __init__(self, values):
-        self.values = values
-        self.i = -1
         
     def get_elements(self):
-        pass
+        return getattr(self, self.DATA_ATTR_NAME)

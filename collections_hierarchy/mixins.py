@@ -1,98 +1,116 @@
 class ComparableMixin(object):
     def __eq__(self, other):
-        return self == other
+        return self.get_elements() == other
 
     def __ne__(self, other):
-        return not self == other
+        return self.get_elements() != other
 
     def __lt__(self, other):
-        return len(self) < len(other)
+        return len(self.get_elements()) < len(other)
 
     def __gt__(self, other):
-        return len(self) > len(other)
+        return len(self.get_elements()) > len(other)
 
     def __le__(self, other):
-        return len(self) <= len(other)
+        return len(self.get_elements()) <= len(other)
 
     def __ge__(self, other):
-        return len(self) >= len(other)
+        return len(self.get_elements()) >= len(other)
 
 
 class SequenceMixin(object):
     def __iter__(self):
-        return iter(self)
+        self.container_index = -1
+        return iter(self.get_elements())
 
     def __next__(self):
-        if isinstance(self.values, list):
-            if self.i > len(self.values) - 1:
+        if isinstance(self.get_elements, list):
+            if self.container_index > len(self.get_elements()):
                 raise StopIteration
-            else:
-                self.i += 1
-                return self.values[self.i]
-                
-        #if isistance(self.values, dict):
-                
-                 
+
+            self.container_index += 1
+            return self.get_elements()[self.container_index]
+        
+        if isinstance(self.get_elements, dict):
+            if self.container_index > len(list(self.get_elements().keys())):
+                raise StopIteration
+            
+            self.container_index += 1
+            return self.get_elements()[list(self.get_elements().keys())[self.container_index]]
+            
             
 
     next = __next__
 
     def __len__(self):
-        return len(self.values)
+        return len(self.get_elements())
 
     def __getitem__(self, key):
-        return self.values[key]
+        return self.get_elements()[key]
 
     def __setitem__(self, key, value):
-        self.values[key] = value
+        self.get_elements()[key] = value
 
     def __delitem__(self, key):
-        del self.values[key]
+        del self.get_elements()[key]
 
     def __contains__(self, item):
-        return item in self
+        return item in self.get_elements()
 
 
 class RepresentableMixin(object):
     def __repr__(self):
-        return "%s" % type(object)
+        return "%" % type(self.get_elements())
 
     def __str__(self):
         #return("{}".format(self)) -> recursion error
-        return "%s" % self
+        return "%s" % self.get_elements()
         
 
 class ConstructibleMixin(object):
     DATA_ATTR_NAME = 'data'
 
-    def __init__(self, initial=None):
-        self.initial = initial
+    def __init__(self, initial=None):                                                        
+        setattr(self, 
+                self.DATA_ATTR_NAME, 
+                initial or 
+                self.DATA_DEFAULT_INITIAL)
+        
 
 
 class OperableMixin(object):
     def __add__(self, other):
-        return self + other
+        return self.get_elements() + other
 
     def __iadd__(self, other):
-        self = self + other
+        self = self.get_elements() + other
 
 
 class AppendableMixin(object):
     def append(self, elem):
-        return self.append(elem)
+        return self.get_elements().append(elem)
 
 
 class HashableMixin(object):
     def keys(self):
-        return self
+        return self.get_elements().keys()
 
     def values(self):
-        return self.values()
+        return self.get_elements().values()
 
     def items(self):
-        return self.items()
+        return self.get_elements().items()
 
 
 class IndexableMixin(object):
+    #def index(self, x):
+     #   return self.get_elements()[x]
     def index(self, x):
-        return self[x]
+        elements = self.get_elements()
+        i = 0
+        for e in elements:
+            if e == x:
+                return i
+            i += 1
+        raise ValueError
+            
