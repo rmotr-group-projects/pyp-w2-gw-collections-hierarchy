@@ -1,14 +1,27 @@
+from copy import deepcopy
+
 class ComparableMixin(object):
     def __eq__(self, other):
-        pass
+        data = getattr(self, self.DATA_ATTR_NAME)
+        other_data = getattr(other, other.DATA_ATTR_NAME)
+        
+        if isinstance(self, HashableMixin) and isinstance(other, HashableMixin):
+            return sorted(data.items()) == sorted(other_data.items())
+        
+        
+        return data == other_data
+        
+            
     def __ne__(self, other):
         # Relies in __eq__
-        pass
+        return not self == other
 
 
 class SequenceMixin(object):
     def __iter__(self):
-        pass
+        self.iterator = iter(self.get_elements())
+        return self
+       
 
     def __next__(self):
         """This method will rely on the get_elements() method of the
@@ -16,38 +29,55 @@ class SequenceMixin(object):
         """
         if not hasattr(self, 'get_elements'):
             raise ValueError("get_elements method not found")
-        # Keep writing your code here
-        raise NotImplementedError()
+            
+        try:
+            self.iterator
+        except:
+            self.iterator = iter(self.get_elements())
+        return next(self.iterator)
+
 
     next = __next__
-
+    
+    def count(self):
+        return len(self)
+        
     def __len__(self):
         # Will rely on the iterator
         # can't do len(self.data)
-        pass
+        count = 0
+        for _ in self:
+            count += 1
+        return count
 
     def __getitem__(self, key):
-        pass
+        data = getattr(self, self.DATA_ATTR_NAME)
+        return data[key]
 
     def __setitem__(self, key, value):
-        pass
+        data = getattr(self, self.DATA_ATTR_NAME)
+        data[key] = value
 
     def __delitem__(self, key):
-        pass
+        data = getattr(self, self.DATA_ATTR_NAME)
+        del data[key]
 
     def __contains__(self, item):
         # Will rely on the iterator
-        pass
+        for value in self:
+            if value == item:
+                return True
+        return False
 
 
 class RepresentableMixin(object):
     def __repr__(self):
-        # Will rely on the iterator or __str__
-        pass
+        return "type: {0} \nelements: {1}".format(self.__class__.__name__, str(self))
 
     def __str__(self):
         # Will rely on the iterator
-        pass
+        data = getattr(self, self.DATA_ATTR_NAME)
+        return str(data)
 
 
 class ConstructibleMixin(object):
@@ -60,29 +90,58 @@ class ConstructibleMixin(object):
 
 class OperableMixin(object):
     def __add__(self, other):
-        pass
-
+        new_object = deepcopy(self)
+        data = getattr(new_object, self.DATA_ATTR_NAME)
+        other_data = getattr(other, other.DATA_ATTR_NAME)
+        
+        
+        if isinstance(self, HashableMixin) and isinstance(other, HashableMixin):
+            data.update(other)
+        else:
+            data += other_data
+        
+        return new_object 
+        
     def __iadd__(self, other):
-        pass
+        data = getattr(self, self.DATA_ATTR_NAME)
+        other_data = getattr(other, other.DATA_ATTR_NAME)
+        
+        if isinstance(self, HashableMixin) and isinstance(other, HashableMixin):
+            return data.update(other)
+        else: 
+            data += other_data
+        return self
+        
 
 
 class AppendableMixin(object):
     def append(self, elem):
         # Relies on DATA_ATTR_NAME = 'data'
-        pass
+        data = getattr(self, self.DATA_ATTR_NAME)
+        
+        if isinstance(self, HashableMixin):
+            data.update(elem)
+        else: 
+            data.append(elem)
 
 
 class HashableMixin(object):
     def keys(self):
-        pass
+        data = getattr(self, self.DATA_ATTR_NAME)
+        return data.keys()
 
     def values(self):
-        pass
+        data = getattr(self, self.DATA_ATTR_NAME)
+        return data.values()
 
     def items(self):
-        pass
+        data = getattr(self, self.DATA_ATTR_NAME)
+        return data.items()
 
 
 class IndexableMixin(object):
     def index(self, x):
-        pass
+        for count in range(len(self)):
+            if x == self[count]:
+                return count
+        raise ValueError()
