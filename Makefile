@@ -14,4 +14,4 @@ test-cov:
 coverage:
 	@echo $(TAG)Coverage report$(END)
 	@PYTHONPATH=. coverage run --source=collections_hierarchy $(shell which py.test) ./tests -q --tb=no >/dev/null; true
-	@coverage report
+	@coverage report -m
