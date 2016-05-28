@@ -4,13 +4,13 @@ class ComparableMixin(object):
     def __eq__(self, other):
         selfdata = getattr(self, self.DATA_ATTR_NAME)
         otherdata = getattr(other, other.DATA_ATTR_NAME)
-        return selfdata == otherdata
+        return sorted(selfdata) == sorted(otherdata)
         
     def __ne__(self, other):
         # Relies in __eq__
         selfdata = getattr(self, self.DATA_ATTR_NAME)
         otherdata = getattr(other, other.DATA_ATTR_NAME)
-        return selfdata != otherdata
+        return selfdata !=  otherdata
 
 
 class SequenceMixin(object):
@@ -115,13 +115,13 @@ class AppendableMixin(object):
 
 class HashableMixin(object):
     def keys(self):
-        return [i for i in self]
+        return sorted([i for i in self])
 
     def values(self):
-        return [self[i] for i in self.keys()]
+        return sorted([self[i] for i in self.keys()])
 
     def items(self):
-        return [(key, self[key]) for key in self.keys()]
+        return sorted([(key, self[key]) for key in self.keys()])
 
 
 class IndexableMixin(object):
