@@ -1,54 +1,81 @@
-class ComparableMixin(object):
-    def __eq__(self, other):
-        pass
-    def __ne__(self, other):
-        # Relies in __eq__
-        pass
+from copy import deepcopy
 
+class ComparableMixin(object):
+    #Implements comparison functionality. Common for List and Dict
+    def __eq__(self, other):
+        data1 = getattr(self, self.DATA_ATTR_NAME) #Get the value of the property that stores the data
+        data2 = getattr(other, other.DATA_ATTR_NAME)
+        
+        if isinstance(data1, dict):
+            return data1 == data2
+        else:
+            return sorted(data1) == sorted(data2)
+        
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
 class SequenceMixin(object):
     def __iter__(self):
-        pass
-
+        elems = self.get_elements()
+        self.iterator = iter(elems)
+        return self
+    
     def __next__(self):
         """This method will rely on the get_elements() method of the
         concrete class.
         """
         if not hasattr(self, 'get_elements'):
             raise ValueError("get_elements method not found")
-        # Keep writing your code here
-        raise NotImplementedError()
+
+        try:
+            self.iterator
+        except:
+            self.iterator = iter(self.get_elements())
+        return next(self.iterator)
+       
+
 
     next = __next__
 
     def __len__(self):
-        # Will rely on the iterator
-        # can't do len(self.data)
-        pass
+        # uses the iterator to provide a count of the items
+        c = 0
+        for d in self:
+            c += 1
+        return c
+    
+    count = __len__
 
     def __getitem__(self, key):
-        pass
+        return getattr(self, self.DATA_ATTR_NAME)[key]
 
     def __setitem__(self, key, value):
-        pass
+        getattr(self, self.DATA_ATTR_NAME)[key] = value
 
     def __delitem__(self, key):
-        pass
+        del getattr(self, self.DATA_ATTR_NAME)[key]
 
     def __contains__(self, item):
         # Will rely on the iterator
-        pass
-
+        for d in self:
+            if d == item:
+                return True 
+        return False
 
 class RepresentableMixin(object):
     def __repr__(self):
-        # Will rely on the iterator or __str__
-        pass
+        return self.__str__()
 
     def __str__(self):
         # Will rely on the iterator
-        pass
-
+        l = ", ".join([ str(n) for n in self])
+        s = self.DATA_ATTR_NAME
+        
+        if type(getattr(self, s)) is list:
+            return '{}{}{}'.format('[', l, ']')
+        elif type(getattr(self, s)) is dict:
+            return '{}{}{}'.format('{', l, '}')
+        
 
 class ConstructibleMixin(object):
     DATA_ATTR_NAME = 'data'
@@ -60,29 +87,36 @@ class ConstructibleMixin(object):
 
 class OperableMixin(object):
     def __add__(self, other):
-        pass
+        new_list = deepcopy(self)
+        new_list.data += other.data
+        return new_list
 
     def __iadd__(self, other):
-        pass
+        return self.__add__(other)
 
 
 class AppendableMixin(object):
     def append(self, elem):
         # Relies on DATA_ATTR_NAME = 'data'
-        pass
-
+        s = getattr(self, self.DATA_ATTR_NAME)
+        
+        if type(s) is list:
+            s.append(elem)
 
 class HashableMixin(object):
     def keys(self):
-        pass
+        s = getattr(self, self.DATA_ATTR_NAME)
+        return sorted([n for n in s])
 
     def values(self):
-        pass
+        s = getattr(self, self.DATA_ATTR_NAME)
+        return sorted([s[n] for n in s])
 
     def items(self):
-        pass
-
-
+        s = getattr(self, self.DATA_ATTR_NAME)
+        return sorted([(n,s[n]) for n in s])
+    
 class IndexableMixin(object):
     def index(self, x):
-        pass
+        s = getattr(self, self.DATA_ATTR_NAME)
+        return s.index(x)
