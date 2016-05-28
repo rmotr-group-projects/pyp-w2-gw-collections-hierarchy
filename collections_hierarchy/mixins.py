@@ -1,43 +1,75 @@
 class ComparableMixin(object):
     def __eq__(self, other):
-        pass
+        self_list = getattr(self, self.DATA_ATTR_NAME)
+        other_list = getattr(other, other.DATA_ATTR_NAME)
+        self_type = type(self_list)
+        other_type = type(other_list)
+        
+        if self_type != other_type:
+            return False
+        
+        if len(self_list) != len(other_list):
+            return False
+        
+        if self_type == list:
+            for x, y in zip(self_list, other_list):
+              if x != y:
+                return False
+        if self_type == dict:
+            for x, y in zip(self_list.items(), other_list.items()):
+              if x != y:
+                  return False
+                
+        return True
+        
     def __ne__(self, other):
-        # Relies in __eq__
-        pass
-
+        return not self == other
 
 class SequenceMixin(object):
     def __iter__(self):
-        pass
+        self.current = 0
+        return self
 
     def __next__(self):
         """This method will rely on the get_elements() method of the
         concrete class.
         """
+        try:
+            getattr(self, 'current')
+        except AttributeError:
+            self.current = 0
+        
         if not hasattr(self, 'get_elements'):
             raise ValueError("get_elements method not found")
-        # Keep writing your code here
-        raise NotImplementedError()
+            
+        elements = self.get_elements()
+        
+        if len(elements) <= self.current:
+            raise StopIteration
+        return_elem = elements[self.current]
+        self.current += 1
+        return return_elem
 
     next = __next__
 
     def __len__(self):
-        # Will rely on the iterator
-        # can't do len(self.data)
-        pass
+        return sum(1 for i in self)
 
     def __getitem__(self, key):
-        pass
+        return getattr(self, self.DATA_ATTR_NAME)[key]
 
     def __setitem__(self, key, value):
-        pass
+        getattr(self, self.DATA_ATTR_NAME)[key] = value
 
     def __delitem__(self, key):
-        pass
+        del getattr(self, self.DATA_ATTR_NAME)[key]
 
     def __contains__(self, item):
-        # Will rely on the iterator
-        pass
+        
+        for elem in self:
+            if item == elem or item in elem:
+                return True
+        return False
 
 
 class RepresentableMixin(object):
@@ -85,4 +117,6 @@ class HashableMixin(object):
 
 class IndexableMixin(object):
     def index(self, x):
-        pass
+        if getattr(self, self.DATA_ATTR_NAME):
+            raise IndexError
+        return getattr(self, self.DATA_ATTR_NAME)[x]
