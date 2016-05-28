@@ -68,8 +68,7 @@ class RepresentableMixin(object):
 
     def __str__(self):
         # Will rely on the iterator
-        # uses the iterator to return a list for formatting
-        l = ", ".join(map(str, self))
+        l = ", ".join([ str(n) for n in self])
         s = self.DATA_ATTR_NAME
         
         if type(getattr(self, s)) is list:
@@ -107,15 +106,15 @@ class AppendableMixin(object):
 class HashableMixin(object):
     def keys(self):
         s = getattr(self, self.DATA_ATTR_NAME)
-        return [n for n in s]
+        return sorted([n for n in s])
 
     def values(self):
         s = getattr(self, self.DATA_ATTR_NAME)
-        return [s[n] for n in s]
+        return sorted([s[n] for n in s])
 
     def items(self):
         s = getattr(self, self.DATA_ATTR_NAME)
-        return [(n,s[n]) for n in s]
+        return sorted([(n,s[n]) for n in s])
     
 class IndexableMixin(object):
     def index(self, x):

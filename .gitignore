@@ -1,5 +1,6 @@
 # virtualenv
 g1-coll/
+g1-coll-2.7/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
