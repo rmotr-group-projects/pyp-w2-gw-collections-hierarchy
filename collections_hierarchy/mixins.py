@@ -128,15 +128,15 @@ class AppendableMixin(object):
 class HashableMixin(object):
     def keys(self):
         data = getattr(self, self.DATA_ATTR_NAME)
-        return data.keys()
+        return sorted(list(data.keys()))
 
     def values(self):
         data = getattr(self, self.DATA_ATTR_NAME)
-        return data.values()
+        return sorted(list(data.values()))
 
     def items(self):
         data = getattr(self, self.DATA_ATTR_NAME)
-        return data.items()
+        return sorted(list(data.items()))
 
 
 class IndexableMixin(object):
