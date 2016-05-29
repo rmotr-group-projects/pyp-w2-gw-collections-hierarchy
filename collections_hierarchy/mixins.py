@@ -64,11 +64,12 @@ class SequenceMixin(object):
 
 class RepresentableMixin(object):
     def __repr__(self):
-        # Will rely on the iterator or __str__
-        pass
+        return str(self)
 
     def __str__(self):
-        return '[{}]'.format(', '.join(str(i) for i in self))
+        self_type = type(getattr(self, self.DATA_ATTR_NAME))
+        if self_type == list:
+            return '[{}]'.format(', '.join(str(i) for i in self))
 
 
 class ConstructibleMixin(object):
