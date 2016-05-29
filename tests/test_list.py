@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from collections_hierarchy.main import *
+from collections_hierarchy.main_collections import *
 
 
 class ListTestCase(unittest.TestCase):
@@ -65,3 +65,7 @@ class ListTestCase(unittest.TestCase):
     def test_list_str(self):
         l1 = List([2, 4, 6, 8, 10])
         self.assertEqual(str(l1), "[2, 4, 6, 8, 10]")
+        
+    def test_list_repr(self):
+        l1 = List([2, 4, 6, 8, 10])
+        self.assertEqual(repr(l1), "[2, 4, 6, 8, 10]")

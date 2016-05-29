@@ -90,7 +90,11 @@ class ComparableMixinTestCase(unittest.TestCase):
         d1 = ComparableMixinDict({'a': 1, 'b': 9})
         d2 = ComparableMixinDict({'a': 1, 'b': 2})
         self.assertNotEqual(d1, d2)
-
+        
+    def test_two_different_types(self):
+        l1 = ComparableMixinList([1, 2, 3])
+        d1 = ComparableMixinDict({'a': 1})
+        self.assertNotEqual(l1, d1)
 
 class SequenceMixinTestCase(unittest.TestCase):
     def test_iterator_next(self):
