@@ -56,11 +56,14 @@ class SequenceMixin(object):
 
     def __contains__(self, item):
         return item in self.get_elements()
+        
+    def count(self):
+        return len(self.get_elements())
 
 
 class RepresentableMixin(object):
     def __repr__(self):
-        return "%" % type(self.get_elements())
+        return "%s" % type(self.get_elements())
 
     def __str__(self):
         #return("{}".format(self)) -> recursion error
@@ -80,12 +83,14 @@ class ConstructibleMixin(object):
 
 class OperableMixin(object):
     def __add__(self, other):
-        return self.get_elements() + other
+        return self.get_elements() + other.get_elements()
 
     def __iadd__(self, other):
-        self = self.get_elements() + other
-
-
+        orig = self.get_elements()
+        new = other.get_elements()
+        orig += new
+        return orig
+    
 class AppendableMixin(object):
     def append(self, elem):
         return self.get_elements().append(elem)
@@ -103,14 +108,7 @@ class HashableMixin(object):
 
 
 class IndexableMixin(object):
-    #def index(self, x):
-     #   return self.get_elements()[x]
     def index(self, x):
-        elements = self.get_elements()
-        i = 0
-        for e in elements:
-            if e == x:
-                return i
-            i += 1
-        raise ValueError
+        return self.get_elements().index(x)
+
             
