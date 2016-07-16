@@ -12,7 +12,7 @@ class List(ComparableMixin,
 
     def get_elements(self):
         # should return a list of elements
-        return sorted(getattr(self, self.DATA_ATTR_NAME))
+        return getattr(self, self.DATA_ATTR_NAME)
         
 
 class Dict(HashableMixin,
@@ -23,7 +23,7 @@ class Dict(HashableMixin,
     DATA_DEFAULT_INITIAL = {}
 
     def get_elements(self):
-        return list(getattr(self, self.DATA_ATTR_NAME).keys())
+        return sorted(list(getattr(self, self.DATA_ATTR_NAME).keys()))
     
     
 # my_dict = {"apples": 430, "bananas": 312, "oranges": 525, "pears": 217}
