@@ -12,7 +12,7 @@ class List(ComparableMixin,
 
     def get_elements(self):
         # should return a list of elements
-        return getattr(self, self.DATA_ATTR_NAME)
+        return sorted(getattr(self, self.DATA_ATTR_NAME))
         
 
 class Dict(HashableMixin,
