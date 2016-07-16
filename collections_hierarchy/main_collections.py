@@ -23,4 +23,4 @@ class Dict(HashableMixin,
     DATA_DEFAULT_INITIAL = {}
 #do constructible and hashable
     def get_elements(self):
-        return list(getattr(self, self.DATA_ATTR_NAME).keys())
+        return sorted(list(getattr(self, self.DATA_ATTR_NAME).keys()))
