@@ -43,9 +43,6 @@ class SequenceMixin(object):
 
     def __delitem__(self, key):
         data = getattr(self, self.DATA_ATTR_NAME)
-        # if len(data) == 0:
-        #     raise IndexError()
-        
         if isinstance(data, list):
             if len(data) == 0:
                 raise IndexError()
@@ -60,7 +57,6 @@ class SequenceMixin(object):
         if isinstance(data, dict):
             if key not in data or len(data)==0:
                 raise KeyError()
-        
             new_elems = {}
             for elem in data:
                 if elem != key:
@@ -114,13 +110,13 @@ class AppendableMixin(object):
 
 class HashableMixin(object):
     def keys(self):
-        return self.data.keys()
+        return list(self.data.keys())
 
     def values(self):
-        return self.data.values()
-
+        return [i for i in self.data.values()] 
+        
     def items(self):
-        return self.data.items()
+        return [i for i in self.data.items()]
 
 class IndexableMixin(object):
     def index(self, x):
