@@ -11,7 +11,10 @@ class List(ComparableMixin,
     DATA_DEFAULT_INITIAL = []
 
     def get_elements(self):
-        pass
+        return [elem for elem in getattr(self, self.DATA_ATTR_NAME)]
+        
+    def count(self):
+        return len(getattr(self, self.DATA_ATTR_NAME))
 
 
 class Dict(HashableMixin,
@@ -22,4 +25,21 @@ class Dict(HashableMixin,
     DATA_DEFAULT_INITIAL = {}
 
     def get_elements(self):
-        pass
+        return [key for key in getattr(self, self.DATA_ATTR_NAME)]
+
+    def count(self):
+        return len(getattr(self, self.DATA_ATTR_NAME))
+        
+        
+class Tuple(ComparableMixin,
+            SequenceMixin,
+            RepresentableMixin,
+            ConstructibleMixin,
+            IndexableMixin):
+    DATA_DEFAULT_INITIAL = ()
+
+    def get_elements(self):
+        return [elem for elem in getattr(self, self.DATA_ATTR_NAME)]
+        
+    def count(self):
+        return len(getattr(self, self.DATA_ATTR_NAME))

@@ -1,14 +1,19 @@
 class ComparableMixin(object):
     def __eq__(self, other):
-        pass
+        self_data = getattr(self, self.DATA_ATTR_NAME)
+        other_data = getattr(other, other.DATA_ATTR_NAME)
+        return self_data == other_data
+            
     def __ne__(self, other):
-        # Relies in __eq__
-        pass
+        return not self.data == other.data
 
 
 class SequenceMixin(object):
+    
     def __iter__(self):
-        pass
+        self.index = 0
+        self.elements = self.get_elements()
+        return self
 
     def __next__(self):
         """This method will rely on the get_elements() method of the
@@ -16,28 +21,33 @@ class SequenceMixin(object):
         """
         if not hasattr(self, 'get_elements'):
             raise ValueError("get_elements method not found")
-        # Keep writing your code here
-        raise NotImplementedError()
+
+        if self.index >= len(getattr(self, self.DATA_ATTR_NAME)):
+            raise StopIteration()
+        
+        value = self.elements[self.index]
+        self.index += 1
+        return value
 
     next = __next__
 
     def __len__(self):
-        # Will rely on the iterator
-        # can't do len(self.data)
-        pass
-
+        count = 0
+        for elem in getattr(self, self.DATA_ATTR_NAME):
+            count += 1
+        return count
+        
     def __getitem__(self, key):
-        pass
+        return getattr(self, self.DATA_ATTR_NAME)[key]
 
     def __setitem__(self, key, value):
-        pass
-
+        getattr(self, self.DATA_ATTR_NAME)[key] = value
+        
     def __delitem__(self, key):
-        pass
+        del getattr(self, self.DATA_ATTR_NAME)[key]
 
     def __contains__(self, item):
-        # Will rely on the iterator
-        pass
+        return item in getattr(self, self.DATA_ATTR_NAME)
 
 
 class RepresentableMixin(object):
@@ -47,7 +57,7 @@ class RepresentableMixin(object):
 
     def __str__(self):
         # Will rely on the iterator
-        pass
+        return "{}".format(getattr(self, self.DATA_ATTR_NAME))
 
 
 class ConstructibleMixin(object):
@@ -56,33 +66,43 @@ class ConstructibleMixin(object):
     def __init__(self, initial=None):
         setattr(self, self.DATA_ATTR_NAME,
                 initial or self.DATA_DEFAULT_INITIAL)
-
-
+        
 class OperableMixin(object):
     def __add__(self, other):
-        pass
+        aux_list = []
+        for elem in self.data:
+            aux_list.append(elem)
+            
+        for elem in other.data:
+            aux_list.append(elem)
+            
+        return self.__class__(aux_list)
 
     def __iadd__(self, other):
-        pass
+        for elem in getattr(other, other.DATA_ATTR_NAME):
+            getattr(self, self.DATA_ATTR_NAME).append(elem)
+        return self
 
 
 class AppendableMixin(object):
     def append(self, elem):
-        # Relies on DATA_ATTR_NAME = 'data'
-        pass
+        self.data.append(elem)
 
 
 class HashableMixin(object):
     def keys(self):
-        pass
-
+        return list(getattr(self, self.DATA_ATTR_NAME).keys())
+        
     def values(self):
-        pass
+        return [value for value in getattr(self, self.DATA_ATTR_NAME).values()]
 
     def items(self):
-        pass
+        return [item for item in getattr(self, self.DATA_ATTR_NAME).items()]
 
 
 class IndexableMixin(object):
     def index(self, x):
-        pass
+        for index, value in enumerate(getattr(self, self.DATA_ATTR_NAME)):
+            if value == x:
+                return index
+        raise ValueError

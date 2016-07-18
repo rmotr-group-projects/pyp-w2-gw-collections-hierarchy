@@ -1,6 +1,6 @@
 import unittest
 
-from collections_hierarchy.main import *
+from collections_hierarchy.main_collections import *
 
 
 class DictTestCase(unittest.TestCase):
@@ -13,7 +13,7 @@ class DictTestCase(unittest.TestCase):
 
     def test_dict_iter(self):
         d1 = Dict({'a': 1, 'b': 2})
-        self.assertEqual([key for key in d1], ['a', 'b'])
+        self.assertEqual(sorted([key for key in d1]), ['a', 'b'])
 
     def test_dict_contains(self):
         d1 = Dict({'a': 1, 'b': 2})
@@ -38,10 +38,10 @@ class DictTestCase(unittest.TestCase):
         self.assertEqual(d1, Dict({'a': 1, 'b': 2, 'z': 10}))
 
     def test_dict_keys(self):
-        self.assertEqual(Dict({'a': 1, 'b': 2}).keys(), ['a', 'b'])
+        self.assertEqual(sorted(Dict({'a': 1, 'b': 2}).keys()), ['a', 'b'])
 
     def test_dict_values(self):
-        self.assertEqual(Dict({'a': 1, 'b': 2}).values(), [1, 2])
+        self.assertEqual(sorted(Dict({'a': 1, 'b': 2}).values()), [1, 2])
 
     def test_dict_items(self):
-        self.assertEqual(Dict({'a': 1, 'b': 2}).items(), [('a', 1), ('b', 2)])
+        self.assertEqual(sorted(Dict({'a': 1, 'b': 2}).items()), [('a', 1), ('b', 2)])
