@@ -1,4 +1,5 @@
 from collections_hierarchy.mixins import *
+from itertools import count as it_count
 
 
 class List(ComparableMixin,
@@ -9,9 +10,16 @@ class List(ComparableMixin,
            IndexableMixin,
            AppendableMixin):
     DATA_DEFAULT_INITIAL = []
+    
+    def count(self):
+        the_data = self.get_elements()
+        return len(the_data)
 
     def get_elements(self):
-        pass
+        
+        #return iterable object 
+        return self.data
+  
 
 
 class Dict(HashableMixin,
@@ -20,6 +28,10 @@ class Dict(HashableMixin,
            RepresentableMixin,
            ConstructibleMixin):
     DATA_DEFAULT_INITIAL = {}
+    
+    def count(self):
+        the_data = self.get_elements()
+        return len(the_data)
 
     def get_elements(self):
-        pass
+        return self.data.keys()
