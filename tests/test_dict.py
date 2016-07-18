@@ -13,7 +13,7 @@ class DictTestCase(unittest.TestCase):
 
     def test_dict_iter(self):
         d1 = Dict({'a': 1, 'b': 2})
-        self.assertEqual([key for key in d1], ['a', 'b'])
+        self.assertEqual(set([key for key in d1]), set(['a', 'b']))
 
     def test_dict_contains(self):
         d1 = Dict({'a': 1, 'b': 2})
