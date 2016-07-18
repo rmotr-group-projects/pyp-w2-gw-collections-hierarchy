@@ -95,7 +95,7 @@ class ComparableMixinTestCase(unittest.TestCase):
 class SequenceMixinTestCase(unittest.TestCase):
     def test_iterator_next(self):
         l = SequenceMixinList(['hello', 9, 'Python'])
-
+ 
         self.assertEqual(next(l), 'hello')
         self.assertEqual(next(l), 9)
         self.assertEqual(next(l), 'Python')
@@ -219,3 +219,19 @@ class OperableMixinTestCase(unittest.TestCase):
         self.assertEqual((l1 + l2).data, [1, 2, 3, 4])
         self.assertEqual(l1.data, [1, 2])
         self.assertEqual(l2.data, [3, 4])
+
+class SequenceMixinListNoElem(ConstructibleMixin, SequenceMixin):
+    DATA_DEFAULT_INITIAL = []
+
+class one_hundred_percent_coverage(unittest.TestCase):
+    def test_mixins_no_elem_iter(self):
+        l1 = SequenceMixinListNoElem()
+        with self.assertRaises(ValueError):
+            [ x for x in l1 ]
+         
+    def test_mixins_no_elem_next(self):
+        l1 = SequenceMixinListNoElem()
+        with self.assertRaises(ValueError):
+            next(l1)
+
+        
