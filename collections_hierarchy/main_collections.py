@@ -9,9 +9,10 @@ class List(ComparableMixin,
            IndexableMixin,
            AppendableMixin):
     DATA_DEFAULT_INITIAL = []
-
+#do constructible, indexable and appendable first?
     def get_elements(self):
-        pass
+        return getattr(self, self.DATA_ATTR_NAME)
+        
 
 
 class Dict(HashableMixin,
@@ -20,6 +21,6 @@ class Dict(HashableMixin,
            RepresentableMixin,
            ConstructibleMixin):
     DATA_DEFAULT_INITIAL = {}
-
+#do constructible and hashable
     def get_elements(self):
-        pass
+        return sorted(list(getattr(self, self.DATA_ATTR_NAME).keys()))
