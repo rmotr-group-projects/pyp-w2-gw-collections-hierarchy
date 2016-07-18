@@ -91,13 +91,13 @@ class AppendableMixin(object):
 
 class HashableMixin(object):
     def keys(self):
-        return getattr(self, self.DATA_ATTR_NAME).keys()
+        return list(getattr(self, self.DATA_ATTR_NAME).keys())
 
     def values(self):
-        return getattr(self, self.DATA_ATTR_NAME).values()
+        return list(getattr(self, self.DATA_ATTR_NAME).values())
 
     def items(self):
-        return getattr(self, self.DATA_ATTR_NAME).items()
+        return list(getattr(self, self.DATA_ATTR_NAME).items())
 
 
 class IndexableMixin(object):
