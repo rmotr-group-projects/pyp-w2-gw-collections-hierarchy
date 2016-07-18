@@ -34,4 +34,4 @@ class Dict(HashableMixin,
         return len(the_data)
 
     def get_elements(self):
-        return self.data.keys()
+        return list(self.data.keys())

@@ -38,10 +38,10 @@ class DictTestCase(unittest.TestCase):
         self.assertEqual(d1, Dict({'a': 1, 'b': 2, 'z': 10}))
 
     def test_dict_keys(self):
-        self.assertEqual(Dict({'a': 1, 'b': 2}).keys(), ['a', 'b'])
+        self.assertEqual(set(Dict({'a': 1, 'b': 2}).keys()), set(['a', 'b']))
 
     def test_dict_values(self):
-        self.assertEqual(Dict({'a': 1, 'b': 2}).values(), [1, 2])
+        self.assertEqual(set(Dict({'a': 1, 'b': 2}).values()), set([1, 2]))
 
     def test_dict_items(self):
-        self.assertEqual(Dict({'a': 1, 'b': 2}).items(), [('a', 1), ('b', 2)])
+        self.assertEqual(set(Dict({'a': 1, 'b': 2}).items()), set([('a', 1), ('b', 2)]))
