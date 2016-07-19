@@ -114,13 +114,15 @@ class SequenceMixinTestCase(unittest.TestCase):
 
     def test_iterator_is_rewinded(self):
         l = SequenceMixinList(['hello', 9, 'Python'])
-        self.assertEqual(next(l), 'hello')
+        it = iter(l)
+        self.assertEqual(next(it), 'hello')
         it = iter(l)
         self.assertEqual(next(it), 'hello')
 
         d = SequenceMixinDict({'a': 1, 'b': 2})
         items = list(d.data.items())
-        self.assertEqual(next(d), items[0])
+        it = iter(d)
+        self.assertEqual(next(it), items[0])
         it = iter(d)
         self.assertEqual(next(it), items[0])
 
