@@ -1,11 +1,8 @@
 import unittest
 import six
 
-from collections_hierarchy.main import *
-
-
+from collections_hierarchy.main_collections import *
 class DictTestCase(unittest.TestCase):
-
     def test_dict_create(self):
         d1 = Dict({'a': 1, 'b': 2})
         self.assertEqual(d1['a'], 1)
