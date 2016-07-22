@@ -8,7 +8,8 @@ class ComparableMixin(object):
 
 class SequenceMixin(object):
     def __iter__(self):
-        pass
+        self.index = 0
+        return self
 
     def __next__(self):
         """This method will rely on the get_elements() method of the
@@ -16,7 +17,15 @@ class SequenceMixin(object):
         """
         if not hasattr(self, 'get_elements'):
             raise ValueError("get_elements method not found")
+        
         # Keep writing your code here
+        elements = self.get_elements()
+        if self.index < len(elements):
+            index = self.index
+            self.index += 1
+            return elements[index]
+        else:
+            raise StopIteration()
         raise NotImplementedError()
 
     next = __next__
@@ -80,7 +89,7 @@ class HashableMixin(object):
         pass
 
     def items(self):
-        pass
+        return self.data
 
 
 class IndexableMixin(object):
