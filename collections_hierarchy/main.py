@@ -8,10 +8,12 @@ class List(ComparableMixin,
            ConstructibleMixin,
            IndexableMixin,
            AppendableMixin):
+    
     DATA_DEFAULT_INITIAL = []
-
+    
     def get_elements(self):
-        pass
+        return getattr(self, self.DATA_ATTR_NAME)
+
 
 
 class Dict(HashableMixin,
@@ -19,7 +21,8 @@ class Dict(HashableMixin,
            SequenceMixin,
            RepresentableMixin,
            ConstructibleMixin):
+               
     DATA_DEFAULT_INITIAL = {}
-
+    
     def get_elements(self):
-        pass
+        return getattr(self, self.DATA_ATTR_NAME).keys()
