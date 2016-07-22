@@ -1,9 +1,6 @@
 class ComparableMixin(object):
     def __eq__(self, other):
-        if type(other.get_elements) == list:
-            return self.get_elements() == other.get_elements()
-        else:
-            return False
+        return getattr(self, self.DATA_ATTR_NAME) == getattr(other, other.DATA_ATTR_NAME)
         
     def __ne__(self, other):
     #     # Relies in __eq__
@@ -16,8 +13,6 @@ class SequenceMixin(object):
         return self
 
     def __next__(self):
-        # if self.counter == None:
-        #     self.counter = 0
         """This method will rely on the get_elements() method of the
         concrete class.
         """
@@ -26,47 +21,81 @@ class SequenceMixin(object):
         # Keep writing your code here
         
         # raise NotImplementedError()
-        #print(hasattr(self, 'get_elements'))
-        if self.counter < len(self.get_elements()):
-            self.counter += 1
-            return self.get_elements()[self.counter-1]
-        else:
-            raise StopIteration
+        if type(getattr(self, self.DATA_ATTR_NAME)) == list:
+            self.identifier = "list"
+            if self.counter < len(getattr(self, self.DATA_ATTR_NAME)):
+                self.counter += 1
+                return getattr(self, self.DATA_ATTR_NAME)[self.counter-1]
+            else:
+                raise StopIteration
+        elif type(getattr(self, self.DATA_ATTR_NAME)) == dict:
+            self.identifier = "dict"
+            enum_dict = list(enumerate(getattr(self, self.DATA_ATTR_NAME)))
+            self.get_value = ""
+            if self.counter < len(enum_dict):
+                self.counter += 1
+                self.get_value = getattr(self, self.DATA_ATTR_NAME)[enum_dict[self.counter-1][1]]
+                return enum_dict[self.counter-1][1]
+            else:
+                raise StopIteration
 
     next = __next__
-
 
     def __len__(self):
         # Will rely on the iterator
         # can't do len(self.data)
-    
-        count = 0
-        for item in self.get_elements():
-            count += 1
-        return count
+        # self = iter(self)
+        # count = 0
+        # for item in self:
+        #     count += 1
+        # return count
+        return len(getattr(self, self.DATA_ATTR_NAME))
         
+    def count(self):
+        return len(self)
 
+    
+    # def __getitem__(self, key):
+        
+    #     length_of_self = len(self)
+    #     if self.identifier == "dict":
+    #         if key not in [item for item in self] and self.identifier == "dict":
+    #             raise KeyError(str(key))
+    #         for i in self:
+    #             if key == i:
+    #                 return self.get_value
+    
+    #     if self.identifier == "list":
+    #         if type(key) != int and ":" not in str(key):  # here, it's receiving an 'a' yep
+    #             raise TypeError('list indices must be integers or slices, not str')
+    #         elif self.identifier == "list" and key > length_of_self-1:
+    #             raise IndexError('list index out of range')
+    #         for tuple_item in list(enumerate(self)):
+    #             if tuple_item[0] == key:
+    #                 return tuple_item[1]
+                    
     def __getitem__(self, key):
-        #print(type(self.get_elements()))
-        if key not in [item[0] for item in self.get_elements()]:
-            raise KeyError
-        if self.get_elements() == []:
-            raise IndexError
-        return self.get_elements()[key]
+        return getattr(self, self.DATA_ATTR_NAME)[key]
 
     def __setitem__(self, key, value):
-        self.get_elements()[key] = value
-        return self.get_elements()[key]
+        getattr(self, self.DATA_ATTR_NAME)[key] = value
+        return
+        # length_of_self = len(self)
+        # if type(key) != int and ":" not in str(key) and self.identifier == "list":
+        #     raise TypeError('list indices must be integers or slices, not str')
+        # elif self.identifier == "list" and key > length_of_self:
+        #     raise IndexError('list index out of range')
+        # self.get_elements()[key] = value
+        # return self.get_elements()[key]
 
     def __delitem__(self, key):
-        # for item in self.get_elements():
-        #     if item
-        pass
+        del getattr(self, self.DATA_ATTR_NAME)[key]
+        return
 
     def __contains__(self, item):
         # Will rely on the iterator
         
-        if item in self.get_elements():
+        if item in getattr(self, self.DATA_ATTR_NAME):
             return True
         else:
             return False
@@ -75,19 +104,23 @@ class SequenceMixin(object):
 class RepresentableMixin(object):
     def __repr__(self):
         # Will rely on the iterator or __str__
-        return self.stringed_list
+        return str(self)
 
     def __str__(self):
         # Will rely on the iterator
         
         #if isinstance(self.get_elements()
         #self = iter(self)
-        self.stringed_list = "["
-        for i in self.get_elements():
-            self.stringed_list = self.stringed_list + str(i) + ", "
-        self.stringed_list = self.stringed_list.rstrip(', ') + "]"
-        return self.stringed_list
+        # self.stringed_list = "["
+        # for i in self.get_elements():
+        #     self.stringed_list = self.stringed_list + str(i) + ", "
+        # self.stringed_list = self.stringed_list.rstrip(', ') + "]"
+        # return self.stringed_list
         # return str(self.get_elements())
+        # if type(getattr(self, self.DATA_ATTR_NAME)) == list:
+            # for i in getattr(self, self.DATA_ATTR_NAME):
+            
+        return str(getattr(self, self.DATA_ATTR_NAME))
 
 class ConstructibleMixin(object):
     DATA_ATTR_NAME = 'data'
@@ -98,82 +131,45 @@ class ConstructibleMixin(object):
                 
 
 class OperableMixin(object):
+    #OperableMixin is uniquely List Mixin
+    
     def __add__(self, other):
-        # if other.get_elements() != []:
-        #     for item in other.get_elements():
-        #         self.append(item)
-        return ConstructibleMixin(self.get_elements() + other.get_elements())
-        #pass
+        addList = getattr(self, self.DATA_ATTR_NAME) + getattr(other, other.DATA_ATTR_NAME)
+        return ConstructibleMixin(addList) #<- who did this? i was thinking this too, i tried it once but dont remember if it worked
+        #return self.DATA_ATTR_NAME + other.DATA_ATTR_NAME
+
 
     def __iadd__(self, other):
-        self.data += other.data
-        return ConstructibleMixin(self.data)
+        for i in getattr(other, other.DATA_ATTR_NAME):
+            getattr(self, self.DATA_ATTR_NAME).append(i)
+        #new_list = getattr(self, self.DATA_ATTR_NAME) + getattr(other, other.DATA_ATTR_NAME)
+        return self
         
-        # pass
-
 
 class AppendableMixin(object):
     def append(self, elem):
         # Relies on DATA_ATTR_NAME = 'data'
-        self.data += list(elem)
-        return ConstructibleMixin(self.data)
-        #pass[1,2,[2,3],{3:2}]
+        fixer = getattr(self, self.DATA_ATTR_NAME)
+        fixer += [elem]
+        return 
 
 
 class HashableMixin(object):
     def keys(self):
-        return [keyz for keyz in self.get_elements()]
+        return [keyz for keyz in getattr(self, self.DATA_ATTR_NAME)]
 
     def values(self):
-        return [self.get_elements()[keyz] for keyz in self.get_elements()]
+        return [getattr(self, self.DATA_ATTR_NAME)[keyz] for keyz in getattr(self, self.DATA_ATTR_NAME)]
 
     def items(self):
-        return [(keyz,self.get_elements()[keyz]) for keyz in self.get_elements()]
+        return [(keyz,getattr(self, self.DATA_ATTR_NAME)[keyz]) for keyz in getattr(self, self.DATA_ATTR_NAME)]
 
 
 class IndexableMixin(object):
     def index(self, x):
         if type(x) == int:
-            for index in range(len(self.data)):
-                if self.get_elements()[index] == x:
+            for index in range(len(getattr(self, self.DATA_ATTR_NAME))):
+                if getattr(self, self.DATA_ATTR_NAME)[index] == x:
                     return index
         else:
             raise ValueError
-    
-    
-####################################
-# HERE IS A TEST ###################
-####################################
-
-# class Node(ComparableMixin):
-#     def __init__(self, elem=None, next=None):
-#         self.elem = elem
-#         self.next = next
-    
-#     def __eq__(self, other):
-#         if isinstance(other, self.__class__):
-#             return str(self) == str(other)
-#         else:
-#             return False
-#     def __ne__(self, other):
-#         # Relies in __eq__
-#         return not self.__eq__(other)
-
-# # a = Node()
-# # b = Node()
-
-# # print(a==b)
-# class SequenceMixinList(ConstructibleMixin, SequenceMixin):
-#     DATA_DEFAULT_INITIAL = []
-
-#     def get_elements(self):
-#         return self.data
-        
-# class SequenceMixinDict(ConstructibleMixin, SequenceMixin):
-#     DATA_DEFAULT_INITIAL = {}
-
-#     def get_elements(self):
-#         return list(self.data.items())
-        
-# d = SequenceMixinDict()
-# # d['a']
