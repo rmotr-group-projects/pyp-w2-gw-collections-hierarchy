@@ -1,17 +1,16 @@
 class ComparableMixin(object):
-    
+
     def __eq__(self, other):
-        
-        self_data = getattr(self,self.DATA_ATTR_NAME)
-        other_data = getattr(other,other.DATA_ATTR_NAME)
-        
+        self_data = getattr(self, self.DATA_ATTR_NAME)
+        other_data = getattr(other, other.DATA_ATTR_NAME)
         return self_data == other_data
-        
+
     def __ne__(self, other):
-        return not (self == other)
+        return self
 
 
 class SequenceMixin(object):
+
     def __iter__(self):
         self.idx = -1
         return self
@@ -27,12 +26,12 @@ class SequenceMixin(object):
             self.idx = 0
         else:
             self.idx += 1
-            
+
         if self.idx >= len(elements):
             raise StopIteration
-        
+
         return elements[self.idx]
-    
+
     next = __next__
 
     def __len__(self):
@@ -47,18 +46,18 @@ class SequenceMixin(object):
     def __setitem__(self, key, value):
         getattr(self, self.DATA_ATTR_NAME)[key] = value
 
-
     def __delitem__(self, key):
-        del getattr(self,self.DATA_ATTR_NAME)[key]
+        del getattr(self, self.DATA_ATTR_NAME)[key]
 
     def __contains__(self, item):
         return any(str(item) in str(element) for element in self)
-    
+
     def count(self):
         return len(self)
 
 
 class RepresentableMixin(object):
+
     def __repr__(self):
         # Will rely on the iterator or __str__
         pass
@@ -74,36 +73,42 @@ class ConstructibleMixin(object):
         setattr(self, self.DATA_ATTR_NAME,
                 initial or self.DATA_DEFAULT_INITIAL)
 
+
 class OperableMixin(object):
+
     def __add__(self, other):
-        self_data = getattr(self,self.DATA_ATTR_NAME)
-        other_data = getattr(other,other.DATA_ATTR_NAME)
+        self_data = getattr(self, self.DATA_ATTR_NAME)
+        other_data = getattr(other, other.DATA_ATTR_NAME)
         return self.__class__(self_data + other_data)
-        
+
     def __iadd__(self, other):
         self = self + other
         return self
 
+
 class AppendableMixin(object):
+
     def append(self, elem):
-        getattr(self,self.DATA_ATTR_NAME).append(elem)
+        getattr(self, self.DATA_ATTR_NAME).append(elem)
 
 
 class HashableMixin(object):
+
     def keys(self):
-        self_data = getattr(self,self.DATA_ATTR_NAME)
+        self_data = getattr(self, self.DATA_ATTR_NAME)
         return [key for key in self_data]
 
     def values(self):
-        self_data = getattr(self,self.DATA_ATTR_NAME)
+        self_data = getattr(self, self.DATA_ATTR_NAME)
         return [self_data[key] for key in self_data]
 
     def items(self):
-        self_data = getattr(self,self.DATA_ATTR_NAME)
+        self_data = getattr(self, self.DATA_ATTR_NAME)
         return [(key, self_data[key]) for key in self_data]
 
 
 class IndexableMixin(object):
+
     def index(self, x):
         for idx, element in enumerate(self):
             if element == x:
