@@ -105,7 +105,7 @@ class SequenceMixinTestCase(unittest.TestCase):
             next(l)
 
         d = SequenceMixinDict({'a': 1, 'b': 2})
-        items = list(d.data.keys()) #AssertionError: 'a' != ('a', 1)
+        items = list(d.data.keys()) #AssertionError: 'a' != ('a', 1) changed from items() to keys()
         
         d = iter(d) #phil
         self.assertEqual(next(d), items[0])
@@ -123,7 +123,7 @@ class SequenceMixinTestCase(unittest.TestCase):
 
         d = SequenceMixinDict({'a': 1, 'b': 2})
         d = iter(d) #chris
-        items = list(d.data.keys()) #AssertionError: 'a' != ('a', 1)
+        items = list(d.data.keys()) #AssertionError: 'a' != ('a', 1) changed from items() to keys()
         self.assertEqual(next(d), items[0])
         it = iter(d)
         self.assertEqual(next(it), items[0])
@@ -212,12 +212,12 @@ class SequenceMixinTestCase(unittest.TestCase):
 
 
 class OperableMixinTestCase(unittest.TestCase):
-    # def test_add_with_empty_collection(self):
-    #     l1 = OperableMixinList()
-    #     l2 = OperableMixinList([1, 2, 3])
-    #     self.assertEqual((l1 + l2).data, [1, 2, 3])
-    #     self.assertEqual(l1.data, [])
-    #     self.assertEqual(l2.data, [1, 2, 3])
+    def test_add_with_empty_collection(self):
+        l1 = OperableMixinList()
+        l2 = OperableMixinList([1, 2, 3])
+        self.assertEqual((l1 + l2).data, [1, 2, 3])
+        self.assertEqual(l1.data, [])
+        self.assertEqual(l2.data, [1, 2, 3])
 
     def test_add_with_non_empty_collection(self):
         l1 = OperableMixinList([1, 2])
