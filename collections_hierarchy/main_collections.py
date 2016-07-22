@@ -1,4 +1,4 @@
-from collections_hierarchy.mixins import *
+from .mixins import *
 
 
 class List(ComparableMixin,
@@ -10,9 +10,13 @@ class List(ComparableMixin,
            AppendableMixin):
     DATA_DEFAULT_INITIAL = []
 
+    
     def get_elements(self):
-        pass
-
+        return getattr(self,self.DATA_ATTR_NAME)
+    
+    def count(self):
+        return len(self.data)
+        
 
 class Dict(HashableMixin,
            ComparableMixin,
@@ -22,4 +26,7 @@ class Dict(HashableMixin,
     DATA_DEFAULT_INITIAL = {}
 
     def get_elements(self):
-        pass
+        return [key for key in self.data.keys()]
+        
+    def count(self):
+        return len(self.data)
