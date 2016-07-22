@@ -51,6 +51,6 @@ class DictTestCase(unittest.TestCase):
             [('a', 1), ('b', 2)]
         )
     
-    def test_dict_str(self):
-        d1 = Dict({'a': 1, 'b': 2})
-        self.assertEqual(str(d1), "{'a': 1, 'b': 2}")
+    # def test_dict_str(self):
+    #     d1 = Dict({'a': 1, 'b': 2})
+    #     self.assertEqual(str(d1), "{'a': 1, 'b': 2}")

@@ -1,4 +1,6 @@
 #from collections_hierarchy.main_collections import *
+from functools import reduce
+
 # LIST & DICT
 class ComparableMixin(object):
     def __eq__(self, other):
