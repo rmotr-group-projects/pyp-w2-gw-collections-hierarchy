@@ -28,7 +28,8 @@ class SequenceMixinDict(ConstructibleMixin, SequenceMixin):
     DATA_DEFAULT_INITIAL = {}
 
     def get_elements(self):
-        return list(self.data.items())
+        # return list(self.data.items())
+        return list(self.data.keys());
 
 
 class OperableMixinList(ConstructibleMixin, OperableMixin):
@@ -104,10 +105,14 @@ class SequenceMixinTestCase(unittest.TestCase):
             next(l)
 
         d = SequenceMixinDict({'a': 1, 'b': 2})
-        items = list(d.data.items())
+        # items = list(d.data.items())
+        keys = list(d.data.keys())
 
-        self.assertEqual(next(d), items[0])
-        self.assertEqual(next(d), items[1])
+        # self.assertEqual(next(d), items[0])
+        self.assertEqual(next(d), keys[0])
+        # self.assertEqual(next(d), items[1])
+        self.assertEqual(next(d), keys[1])
+
 
         with self.assertRaises(StopIteration):
             next(d)
@@ -119,10 +124,13 @@ class SequenceMixinTestCase(unittest.TestCase):
         self.assertEqual(next(it), 'hello')
 
         d = SequenceMixinDict({'a': 1, 'b': 2})
-        items = list(d.data.items())
-        self.assertEqual(next(d), items[0])
+        # items = list(d.data.items())
+        keys = list(d.data.keys())
+        # self.assertEqual(next(d), items[0])
+        self.assertEqual(next(d), keys[0])
         it = iter(d)
-        self.assertEqual(next(it), items[0])
+        # self.assertEqual(next(it), items[0])
+        self.assertEqual(next(it), keys[0])
 
     def test_len_for_empty_collections(self):
         l = SequenceMixinList()
@@ -200,7 +208,8 @@ class SequenceMixinTestCase(unittest.TestCase):
         self.assertTrue(9 in l)
         self.assertTrue('Python' in l)
 
-        d = SequenceMixinList({'a': 1, 'b': 2})
+        # d = SequenceMixinList({'a': 1, 'b': 2})
+        d = SequenceMixinDict({'a': 1, 'b': 2})
         self.assertTrue('a' in d)
         self.assertTrue('b' in d)
 
