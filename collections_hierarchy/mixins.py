@@ -22,10 +22,10 @@ class SequenceMixin(object):
         if self.i == len(elements):
             raise StopIteration()
         self.i += 1
-        if isinstance(self, dict):
-            return getattr(self, self.DATA_ATTR_NAME)[elements[self.i]]
-        else:
-            return elements[self.i - 1]
+        # if isinstance(getattr(self, self.DATA_ATTR_NAME), dict):
+        #     return getattr(self, self.DATA_ATTR_NAME)[elements[self.i-1][0]]
+        # else:
+        return elements[self.i - 1]
             
     next = __next__
 
