@@ -16,12 +16,11 @@ class ComparableMixinList(ConstructibleMixin, ComparableMixin):
 class ComparableMixinDict(ConstructibleMixin, ComparableMixin):
     DATA_DEFAULT_INITIAL = {}
 
-
 class SequenceMixinList(ConstructibleMixin, SequenceMixin):
     DATA_DEFAULT_INITIAL = []
 
     def get_elements(self):
-        return self.data
+        return (self.data)
 
 
 class SequenceMixinDict(ConstructibleMixin, SequenceMixin):
@@ -96,21 +95,23 @@ class SequenceMixinTestCase(unittest.TestCase):
     def test_iterator_next(self):
         l = SequenceMixinList(['hello', 9, 'Python'])
 
-        self.assertEqual(next(l), 'hello')
-        self.assertEqual(next(l), 9)
-        self.assertEqual(next(l), 'Python')
+        it = iter(l)
+        self.assertEqual(next(it), 'hello')
+        self.assertEqual(next(it), 9)
+        self.assertEqual(next(it), 'Python')
 
         with self.assertRaises(StopIteration):
-            next(l)
+            next(it)
 
         d = SequenceMixinDict({'a': 1, 'b': 2})
         items = list(d.data.items())
-
-        self.assertEqual(next(d), items[0])
-        self.assertEqual(next(d), items[1])
+    
+        it = iter(items)
+        self.assertEqual(next(it), items[0])
+        self.assertEqual(next(it), items[1])
 
         with self.assertRaises(StopIteration):
-            next(d)
+            next(it)
 
     def test_iterator_is_rewinded(self):
         l = SequenceMixinList(['hello', 9, 'Python'])
@@ -200,7 +201,7 @@ class SequenceMixinTestCase(unittest.TestCase):
         self.assertTrue(9 in l)
         self.assertTrue('Python' in l)
 
-        d = SequenceMixinList({'a': 1, 'b': 2})
+        d = SequenceMixinDict({'a': 1, 'b': 2})
         self.assertTrue('a' in d)
         self.assertTrue('b' in d)
 
