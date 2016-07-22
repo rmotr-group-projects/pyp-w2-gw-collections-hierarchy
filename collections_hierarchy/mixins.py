@@ -13,23 +13,19 @@ class SequenceMixin(object):
     def __iter__(self):
         self.curr_elements = self.get_elements()
         self.curr_idx = 0
-        return self.SequenceMixin__iter__(self.curr_idx)
+        return self
 
     def __next__(self):
         if not hasattr(self, 'get_elements'):
             raise AttributeError("SequenceMixin object has no attribute \
             'get_elements")
         
+
+        if not hasattr(self, 'curr_elements'):
+            self.__iter__()
          
-        # the 'test_iterator_is_rewinded' test from test_mixins fails 
-        # on its first call to next(). Should we call the __iter__() ?
-        # This returns an iterator. But is it legit ? 
-#        if not hasattr(self, 'curr_elements'):
-#            self.__iter__()
-        
-        curr_elements = self.get_elements 
-        if self.curr_idx < len(curr_elements) :
-            curr_item = curr_elements[self.curr_idx]
+        if self.curr_idx < len(self.curr_elements) :
+            curr_item = self.curr_elements[self.curr_idx]
             self.curr_idx += 1
             return curr_item
             
