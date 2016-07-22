@@ -1,6 +1,6 @@
 # [pyp-w2] Collections Hierarchy
 
-Today, we will re implement part of the Python collections hierarchy using Mixins.
+Today, we are going to implement part of the Python collections hierarchy using Mixins.
 
 It's normal to think about the collections hierarchy as a tree. But, a lot of
 functionality is shared between classes in different levels of the hierarchy. That's
