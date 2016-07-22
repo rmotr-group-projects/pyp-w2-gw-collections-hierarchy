@@ -22,9 +22,6 @@ class SequenceMixin(object):
         if self.i == len(elements):
             raise StopIteration()
         self.i += 1
-        # if isinstance(getattr(self, self.DATA_ATTR_NAME), dict):
-        #     return getattr(self, self.DATA_ATTR_NAME)[elements[self.i-1][0]]
-        # else:
         return elements[self.i - 1]
             
     next = __next__
@@ -53,11 +50,9 @@ class SequenceMixin(object):
 
 class RepresentableMixin(object):
     def __repr__(self):
-        # Will rely on the iterator or __str__
         return str(self.get_elements())
 
     def __str__(self):
-        # Will rely on the iterator
         return str(self.get_elements())
 
 
