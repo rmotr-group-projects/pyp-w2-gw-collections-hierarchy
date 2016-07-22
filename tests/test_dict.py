@@ -13,7 +13,12 @@ class DictTestCase(unittest.TestCase):
             d1['hello']
 
     def test_dict_iter(self):
-        d1 = Dict({'a': 1, 'b': 2})
+        d1 = Dict({'a': 1, 'b': 2}) #{'a': 1, 'b': 2}
+        print('RANDOM STUFF TO FIND: ', d1.get_elements())
+        print([key for key in d1])
+        for key in d1:
+            print key
+        print('*****************************************************')
         six.assertCountEqual(self, [key for key in d1], ['a', 'b'])
 
     def test_dict_contains(self):
