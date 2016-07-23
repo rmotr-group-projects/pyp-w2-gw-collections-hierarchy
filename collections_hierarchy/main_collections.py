@@ -11,8 +11,9 @@ class List(ComparableMixin,
     DATA_DEFAULT_INITIAL = []
 
     def get_elements(self):
-        pass
-
+        # Get self.data
+        # Get indices from self.data so we can iter through index
+        return self.data
 
 class Dict(HashableMixin,
            ComparableMixin,
@@ -22,4 +23,6 @@ class Dict(HashableMixin,
     DATA_DEFAULT_INITIAL = {}
 
     def get_elements(self):
-        pass
+        # Get self.data
+        # Get items from self.data so we can iter through list of items
+        return list(self.data.keys())
