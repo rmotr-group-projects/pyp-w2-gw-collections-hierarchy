@@ -25,4 +25,4 @@ class Dict(HashableMixin,
     def get_elements(self):
         # Get self.data
         # Get items from self.data so we can iter through list of items
-        return list(self.data.items())
+        return list(self.data.keys())

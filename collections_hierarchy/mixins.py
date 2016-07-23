@@ -128,13 +128,13 @@ class AppendableMixin(object):
 
 class HashableMixin(object):
     def keys(self):
-        return [keys for (keys,values) in self]
+        return [keys for keys in self]
 
     def values(self):
-        return [values for (keys, values) in self]
+        return [self[keys] for keys in self]
 
     def items(self):
-        return [(keys, values) for (keys, values) in self]
+        return [(keys, self[keys]) for keys in self]
 
 
 class IndexableMixin(object):
