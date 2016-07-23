@@ -2,19 +2,22 @@ from copy import deepcopy
 
 class ComparableMixin(object):
     def __eq__(self, other):
-        if isinstance(self,type(None)) or isinstance(other,type(None)):
-            return False
-        try: 
-            if len(self.data) != len(other.data):
-                return False
-        except StopIteration, e:
-            pass
-        compare_index = 0
-        for item in self.get_elements():
-            if item != other.get_elements()[compare_index]:
-                return False
-            compare_index += 1
-        return True
+        # Not sure if this is a cop out
+        return self.data == other.data
+        
+        # if isinstance(self,type(None)) or isinstance(other,type(None)):
+        #     return False
+        # try: 
+        #     if len(self.data) != len(other.data):
+        #         return False
+        # except StopIteration, e:
+        #     pass
+        # compare_index = 0
+        # for item in self.get_elements():
+        #     if item != other.get_elements()[compare_index]:
+        #         return False
+        #     compare_index += 1
+        # return True
             
     def __ne__(self, other):
         # Relies on __eq__
