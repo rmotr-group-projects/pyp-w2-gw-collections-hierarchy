@@ -39,8 +39,6 @@ class SequenceMixin(object):
             raise ValueError("get_elements method not found")
         # Keep writing your code here
         elements = self.get_elements()
-        if len(elements) < 1:
-            return None
         if self.iter_index < len(elements):
             index = self.iter_index
             self.iter_index += 1
