@@ -66,11 +66,11 @@ class SequenceMixin(object):
     
     def __setitem__(self, key, value):
         self.data[key] = value
-        return self
+        return None
 
     def __delitem__(self, key):
         del self.data[key]
-        return self
+        return None
 
     def __contains__(self, item):
         # Will rely on the iterator

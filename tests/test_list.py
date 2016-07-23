@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from collections_hierarchy.main import *
-
+from collections_hierarchy.main_collections import *
 
 class ListTestCase(unittest.TestCase):
 
