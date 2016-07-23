@@ -12,7 +12,7 @@ class List(ComparableMixin,
 
     def get_elements(self):
         # Get self.data
-        # Get indices from self.data so we can iter through  index
+        # Get indices from self.data so we can iter through index
         return self.data
 
 class Dict(HashableMixin,
@@ -25,4 +25,4 @@ class Dict(HashableMixin,
     def get_elements(self):
         # Get self.data
         # Get items from self.data so we can iter through list of items
-        return self.data.items()
+        return list(self.data.items())
