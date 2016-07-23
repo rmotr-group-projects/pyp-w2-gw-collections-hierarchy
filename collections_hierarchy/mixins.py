@@ -16,12 +16,10 @@ class SequenceMixin(object):
         return self
 
     def __next__(self):
-        """This method will rely on the get_elements() method of the
-        concrete class.
-        """
         if not hasattr(self, 'get_elements'):
             raise ValueError("get_elements method not found")
         elements = self.get_elements()
+        
         if not hasattr(self, 'idx'):
             self.idx = 0
         else:
@@ -58,13 +56,11 @@ class SequenceMixin(object):
 
 class RepresentableMixin(object):
 
-    def __repr__(self):
-        # Will rely on the iterator or __str__
-        pass
-
     def __str__(self):
         return str([elem for elem in self])
 
+    def __repr__(self):
+        return str(self)
 
 class ConstructibleMixin(object):
     DATA_ATTR_NAME = 'data'
