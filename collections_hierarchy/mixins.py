@@ -1,13 +1,19 @@
+from copy import deepcopy
+
 class ComparableMixin(object):
     def __eq__(self, other):
         if isinstance(self,type(None)) or isinstance(other,type(None)):
             return False
-        # elif len(self) != len(other):
-        #     return False
-        other_item = iter(other)
-        for item in self:
-            if item != next(other_item):
+        try: 
+            if len(self.data) != len(other.data):
                 return False
+        except StopIteration, e:
+            pass
+        compare_index = 0
+        for item in self.get_elements():
+            if item != other.get_elements()[compare_index]:
+                return False
+            compare_index += 1
         return True
             
     def __ne__(self, other):
@@ -95,7 +101,13 @@ class ConstructibleMixin(object):
 
 class OperableMixin(object):
     def __add__(self, other):
-        new_self = self
+        # Should only work with .data
+        # new_self = deepcopy(self)
+        # for item in other:
+        #     new_self.data.append(item)
+        # return new_self
+
+        new_self = deepcopy(self)
         for item in other.data:
             new_self.data.append(item)
         return new_self
@@ -108,7 +120,7 @@ class AppendableMixin(object):
     def append(self, elem):
         # Relies on DATA_ATTR_NAME = 'data'
         self.data.append(elem)
-        return self
+        return None
 
 
 class HashableMixin(object):
