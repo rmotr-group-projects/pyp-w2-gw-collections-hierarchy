@@ -1,25 +1,25 @@
 from collections_hierarchy.mixins import *
 
 
-class List(ComparableMixin,
+class List(ConstructibleMixin,
+           ComparableMixin,
            SequenceMixin,
            RepresentableMixin,
            OperableMixin,
-           ConstructibleMixin,
            IndexableMixin,
            AppendableMixin):
     DATA_DEFAULT_INITIAL = []
 
     def get_elements(self):
-        pass
+        return self.data
+    
 
-
-class Dict(HashableMixin,
+class Dict(ConstructibleMixin,
+           HashableMixin,
            ComparableMixin,
            SequenceMixin,
-           RepresentableMixin,
-           ConstructibleMixin):
+           RepresentableMixin):
     DATA_DEFAULT_INITIAL = {}
 
     def get_elements(self):
-        pass
+        return list(self.data.items())
