@@ -15,8 +15,7 @@ class SequenceMixin(object):
         return self
 
     def __next__(self):
-        """
-        This method will rely on the get_elements() method of the
+        """This method will rely on the get_elements() method of the
         concrete class.
         """
         if not hasattr(self, 'get_elements'):
@@ -24,9 +23,8 @@ class SequenceMixin(object):
 
         if not hasattr(self, 'index'):
             self.index = 0
-            
-        elem_list=self.get_elements() 
-   
+        
+        elem_list = self.get_elements()
         if self.index < len(elem_list):
             elem = elem_list[self.index]
             self.index +=1
@@ -45,22 +43,19 @@ class SequenceMixin(object):
         
 
     def __getitem__(self, key):
-        return self.data[key]
-        
+        pass
+
     def __setitem__(self, key, value):
-        attr = getattr(self, self.DATA_ATTR_NAME)
-        attr[key] = value
-        return
-    
+        pass
+
     def __delitem__(self, key):
-        del self.data[key]
-        
+        pass
+
     def __contains__(self, item):
-        if item in self.data:
+        # Will rely on the iterator
+        @if val in self:
             return True
-        return False
-    
-    
+        
 
 
 class RepresentableMixin(object):
@@ -69,23 +64,13 @@ class RepresentableMixin(object):
         pass
 
     def __str__(self):
-        data=self.data
-        if type(data) == list:
-            string="["
-            i=1
-            for x in self:
-                if i==len(self):
-                    string+=str(x)
-                else:
-                    string+=str(x)+", "
-                i+=1
-            string+="]"
-            return string
+        # Will rely on the iterator
+        pass
 
 
 class ConstructibleMixin(object):
     DATA_ATTR_NAME = 'data'
-
+        pass
     def __init__(self, initial=None):
         setattr(self, self.DATA_ATTR_NAME,
                 initial or self.DATA_DEFAULT_INITIAL)
@@ -93,15 +78,10 @@ class ConstructibleMixin(object):
 
 class OperableMixin(object):
     def __add__(self, other):
-        data=self.data+other.data
-        x=type(self)
-        x.data=data
-        return x
-        
+        pass
+
     def __iadd__(self, other):
-        data=self.data+other.data
-        self.data=data
-        return self
+        pass
 
 
 class AppendableMixin(object):
@@ -114,20 +94,15 @@ class AppendableMixin(object):
 
 class HashableMixin(object):
     def keys(self):
-        return self.data.keys()
+        pass
 
     def values(self):
-        return self.data.values()
+        pass
 
     def items(self):
-        return self.data.items()
+        pass
 
 
 class IndexableMixin(object):
     def index(self, x):
-        i=0
-        for y in self.data:
-            if x == y:
-                return i
-            i+=1
-        raise ValueError()
+        pass
