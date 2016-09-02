@@ -38,13 +38,22 @@ class SequenceMixin(object):
         return self.counter
 
     def __getitem__(self, key):
-        return self.data[key]
+        try:
+            return self.data[key]
+        except:
+            raise IndexError('Index out of range.')
 
     def __setitem__(self, key, value):
-        pass
+        try:
+            self.data[key] = value
+        except:
+            raise IndexError('Index out of range.')
 
     def __delitem__(self, key):
-        pass
+        try:
+            self.data = [elem for elem in self.data if not self.data[key]]
+        except:
+            raise IndexError('Index out of range.')
 
     def __contains__(self, item):
         # Will rely on the iterator
