@@ -92,7 +92,7 @@ class ComparableMixinTestCase(unittest.TestCase):
         self.assertNotEqual(d1, d2)
 
 
-class SequenceMixinTestCase(unittest.TestCase):
+class SequenceMixinTestCase(unittest.TestCase):#############
     def test_iterator_next(self):
         l = SequenceMixinList(['hello', 9, 'Python'])
 

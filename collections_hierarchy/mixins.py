@@ -15,32 +15,32 @@ class SequenceMixin(object):
         return self
 
     def __next__(self):
-        """This method will rely on the get_elements() method of the
+        """
+        This method will rely on the get_elements() method of the
         concrete class.
         """
         if not hasattr(self, 'get_elements'):
             raise ValueError("get_elements method not found")
-        # Keep writing your code here
-        
+
         if not hasattr(self, 'index'):
             self.index = 0
+            
+        elem_list=self.get_elements() 
         
-        elem_list = self.get_elements()
-        #if self.index >= len(elem_list):
-            #raise IndexError
+        if elem_list is None:
+            elem_list = self.data#get_elements()
+            
         if self.index < len(elem_list):
             elem = elem_list[self.index]
             self.index +=1
             return elem
         else:
             raise StopIteration()
-        #raise NotImplementedError()
-        
+
     next = __next__
 
     def __len__(self):
         # Will rely on the iterator
-        # can't do len(self.data)
         num = 0
         for i in self.data: 
             num += 1
@@ -48,17 +48,19 @@ class SequenceMixin(object):
         
 
     def __getitem__(self, key):
-        pass
-
+        return self.data[key]
+        
     def __setitem__(self, key, value):
         pass
 
     def __delitem__(self, key):
-        pass
-
+        del self.data[key]
+        
     def __contains__(self, item):
-        # Will rely on the iterator
-        pass
+        if item in self.data:
+            return True
+        return False
+        
 
 
 class RepresentableMixin(object):
@@ -67,8 +69,19 @@ class RepresentableMixin(object):
         pass
 
     def __str__(self):
-        # Will rely on the iterator
-        pass
+        data=self.data
+        if type(data) == list:
+            string="["
+            i=1
+            for x in self:
+                if i==len(self):
+                    string+=str(x)
+                else:
+                    string+=str(x)+", "
+                i+=1
+            string+="]"
+            return string
+        #pass
 
 
 class ConstructibleMixin(object):
@@ -81,10 +94,15 @@ class ConstructibleMixin(object):
 
 class OperableMixin(object):
     def __add__(self, other):
-        pass
-
+        data=self.data+other.data
+        x=type(self)
+        x.data=data
+        return x
+        
     def __iadd__(self, other):
-        pass
+        data=self.data+other.data
+        self.data=data
+        return self
 
 
 class AppendableMixin(object):
@@ -108,4 +126,11 @@ class HashableMixin(object):
 
 class IndexableMixin(object):
     def index(self, x):
-        pass
+        i=0
+        for y in self.data:
+            if x == y:
+                return i
+            i+=1
+        raise ValueError()
+        
+        
