@@ -104,13 +104,13 @@ class AppendableMixin(object):
 
 class HashableMixin(object):
     def keys(self):
-        pass
+        return self.data.keys()
 
     def values(self):
-        pass
+        return self.values()
 
     def items(self):
-        pass
+        return self.items()
 
 
 class IndexableMixin(object):
