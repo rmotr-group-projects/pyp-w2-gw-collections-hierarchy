@@ -1,14 +1,18 @@
 class ComparableMixin(object):
     def __eq__(self, other):
-        pass
+        attr1 = getattr(self, self.DATA_ATTR_NAME)
+        attr2 = getattr(other, other.DATA_ATTR_NAME)
+        return attr1 == attr2
+        
     def __ne__(self, other):
         # Relies in __eq__
-        pass
+        return not (self == other) #same as calling self.__eq__(other)
 
 
 class SequenceMixin(object):
     def __iter__(self):
-        pass
+        self.index = 0
+        return self
 
     def __next__(self):
         """This method will rely on the get_elements() method of the
@@ -17,14 +21,31 @@ class SequenceMixin(object):
         if not hasattr(self, 'get_elements'):
             raise ValueError("get_elements method not found")
         # Keep writing your code here
-        raise NotImplementedError()
-
+        
+        if not hasattr(self, 'index'):
+            self.index = 0
+        
+        elem_list = self.get_elements()
+        #if self.index >= len(elem_list):
+            #raise IndexError
+        if self.index < len(elem_list):
+            elem = elem_list[self.index]
+            self.index +=1
+            return elem
+        else:
+            raise StopIteration()
+        #raise NotImplementedError()
+        
     next = __next__
 
     def __len__(self):
         # Will rely on the iterator
         # can't do len(self.data)
-        pass
+        num = 0
+        for i in self.data: 
+            num += 1
+        return num
+        
 
     def __getitem__(self, key):
         pass
@@ -69,7 +90,9 @@ class OperableMixin(object):
 class AppendableMixin(object):
     def append(self, elem):
         # Relies on DATA_ATTR_NAME = 'data'
-        pass
+        data=getattr(self, self.DATA_ATTR_NAME)
+        data+=[elem]
+        return self.data
 
 
 class HashableMixin(object):
