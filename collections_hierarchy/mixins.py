@@ -26,10 +26,7 @@ class SequenceMixin(object):
             self.index = 0
             
         elem_list=self.get_elements() 
-        
-        if elem_list is None:
-            elem_list = self.data#get_elements()
-            
+   
         if self.index < len(elem_list):
             elem = elem_list[self.index]
             self.index +=1
@@ -81,7 +78,6 @@ class RepresentableMixin(object):
                 i+=1
             string+="]"
             return string
-        #pass
 
 
 class ConstructibleMixin(object):
@@ -115,13 +111,13 @@ class AppendableMixin(object):
 
 class HashableMixin(object):
     def keys(self):
-        pass
+        return self.data.keys()
 
     def values(self):
-        pass
+        return self.data.values()
 
     def items(self):
-        pass
+        return self.data.items()
 
 
 class IndexableMixin(object):
@@ -132,5 +128,3 @@ class IndexableMixin(object):
                 return i
             i+=1
         raise ValueError()
-        
-        
