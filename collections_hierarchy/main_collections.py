@@ -30,3 +30,7 @@ class Dict(HashableMixin,
     
     def count(self):
         return len(self)
+        
+    def __setitem__(self, key, value):
+        self.data.update({key:value})
+        return self
