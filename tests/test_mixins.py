@@ -104,8 +104,10 @@ class SequenceMixinTestCase(unittest.TestCase):
             next(l)
 
         d = SequenceMixinDict({'a': 1, 'b': 2})
-        items = list(d.data.items())
-
+        #items = list(d.data.items())
+        items = list(d.data.keys())
+        d = iter(d)
+        
         self.assertEqual(next(d), items[0])
         self.assertEqual(next(d), items[1])
 
@@ -119,7 +121,7 @@ class SequenceMixinTestCase(unittest.TestCase):
         self.assertEqual(next(it), 'hello')
 
         d = SequenceMixinDict({'a': 1, 'b': 2})
-        items = list(d.data.items())
+        items = list(d.data.keys())
         self.assertEqual(next(d), items[0])
         it = iter(d)
         self.assertEqual(next(it), items[0])
