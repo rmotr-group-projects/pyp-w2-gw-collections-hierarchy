@@ -22,21 +22,18 @@ class SequenceMixin(object):
         if not hasattr(self, 'get_elements'):
             raise ValueError("get_elements method not found")
         # Keep writing your code here
-        raise NotImplementedError()
+        return self.__getitem__(self)
 
     next = __next__
 
     def __len__(self):
         # Will rely on the iterator
         # can't do len(self.data)
-        return self.count()
-        
-    def count(self):
         self.counter=0
-        while self.data:
+        for items in self.data:
             self.counter+=1
         return self.counter
-
+        
     def __getitem__(self, key):
         try:
             return self.data[key]
@@ -83,16 +80,13 @@ class ConstructibleMixin(object):
 
 class OperableMixin(object):
     def __add__(self, other):
-        a_list=[]
-        for i in self:
-            a_list.append(i)
-        for i in other:
-            a_list.append(i)
-        return a_list
-
+        obj=object.__new__(type(self))
+        obj.data=self.data+other.data
+        return obj
+        
     def __iadd__(self, other):
-        for i in other:
-            self.data.append(i)
+        data=self.data+other.data
+        self.data=data
         return self
 
 
@@ -100,6 +94,7 @@ class AppendableMixin(object):
     def append(self, elem):
         # Relies on DATA_ATTR_NAME = 'data'
         self.data.append(elem)
+        return self.data
 
 
 class HashableMixin(object):
