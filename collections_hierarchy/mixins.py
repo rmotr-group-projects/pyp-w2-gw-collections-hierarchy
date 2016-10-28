@@ -1,5 +1,6 @@
 class ComparableMixin(object):
     def __eq__(self, other):
+        print("YOYOY")
         return getattr(self, self.DATA_ATTR_NAME) == getattr(other, other.DATA_ATTR_NAME)
 
     def __ne__(self, other):
@@ -9,10 +10,12 @@ class ComparableMixin(object):
 
 class SequenceMixin(object):
     def __iter__(self):
+        print("!!!")
         self.my_iter = 0
         return self
 
     def __next__(self):
+        print("***")
         """This method will rely on the get_elements() method of the
         concrete class.
         """
@@ -25,6 +28,7 @@ class SequenceMixin(object):
         if self.my_iter < len(self.get_elements()):
             n = self.get_elements()[self.my_iter]
             self.my_iter += 1
+            print("N:",n)
             return n
         else:
             raise StopIteration
@@ -32,6 +36,7 @@ class SequenceMixin(object):
     next = __next__
 
     def __len__(self):
+        print("LEN")
         # Will rely on the iterator
         # can't do len(self.data)
         count = 0
@@ -40,6 +45,7 @@ class SequenceMixin(object):
         return count
 
     def count(self):
+        print("COUNT")
         return self.__len__()
 
     def __getitem__(self, key):
