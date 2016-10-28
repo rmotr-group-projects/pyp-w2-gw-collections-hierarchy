@@ -8,36 +8,55 @@ class ComparableMixin(object):
 
 class SequenceMixin(object):
     def __iter__(self):
-        pass
+        print("ITER")
+        for d in self.data:
+            yield d
 
     def __next__(self):
         """This method will rely on the get_elements() method of the
         concrete class.
         """
+        print("NEXT")
         if not hasattr(self, 'get_elements'):
             raise ValueError("get_elements method not found")
         # Keep writing your code here
-        raise NotImplementedError()
+        return self.__getitem__(self)
 
     next = __next__
 
     def __len__(self):
         # Will rely on the iterator
         # can't do len(self.data)
-        pass
+        count = 0
+        for d in self.data:
+            count += 1
+        return count
 
     def __getitem__(self, key):
-        pass
+        try:
+            return self.data[key]
+        except:
+            raise IndexError
 
     def __setitem__(self, key, value):
-        pass
+        try:
+            self.data[key] = value
+        except:
+            raise IndexError
 
     def __delitem__(self, key):
-        pass
+        try:
+            temp_data = []
+            for d in self.data:
+                if not d == self.data[key]:
+                    temp_data.append(d)
+            self.data = temp_data
+        except:
+            raise IndexError
 
     def __contains__(self, item):
         # Will rely on the iterator
-        pass
+        return item in self.data
 
 
 class RepresentableMixin(object):
@@ -69,7 +88,7 @@ class OperableMixin(object):
 class AppendableMixin(object):
     def append(self, elem):
         # Relies on DATA_ATTR_NAME = 'data'
-        pass
+        return self.data.append(elem)
 
 
 class HashableMixin(object):
