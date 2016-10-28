@@ -1,9 +1,9 @@
 class ComparableMixin(object):
     def __eq__(self, other):
-        pass
+        return self.data == other.data
     def __ne__(self, other):
         # Relies in __eq__
-        pass
+        return not self.__eq__(other)
 
 
 class SequenceMixin(object):
@@ -43,7 +43,7 @@ class SequenceMixin(object):
 class RepresentableMixin(object):
     def __repr__(self):
         # Will rely on the iterator or __str__
-        pass
+        return str(self)
 
     def __str__(self):
         # Will rely on the iterator
