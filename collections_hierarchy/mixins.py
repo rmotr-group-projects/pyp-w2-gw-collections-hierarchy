@@ -1,6 +1,7 @@
 class ComparableMixin(object):
     def __eq__(self, other):
-        return self.data == other.data
+        return getattr(self, self.DATA_ATTR_NAME) == getattr(other, other.DATA_ATTR_NAME)
+
     def __ne__(self, other):
         # Relies in __eq__
         return not self.__eq__(other)
@@ -8,19 +9,27 @@ class ComparableMixin(object):
 
 class SequenceMixin(object):
     def __iter__(self):
-        print("ITER")
-        for d in self.data:
-            yield d
+        self.my_iter = 0
+        return self
 
     def __next__(self):
         """This method will rely on the get_elements() method of the
         concrete class.
         """
-        print("NEXT")
         if not hasattr(self, 'get_elements'):
             raise ValueError("get_elements method not found")
-        # Keep writing your code here
-        return self.__getitem__(self)
+
+        if not hasattr(self, "my_iter"):
+            self.my_iter = 0
+
+        #print("my_iter:", self.my_iter)
+        if self.my_iter < len(self.get_elements()):
+            #print(self.get_elements()[self.my_iter])
+            n = self.get_elements()[self.my_iter]
+            self.my_iter += 1
+            return n
+        else:
+            raise StopIteration
 
     next = __next__
 
@@ -33,24 +42,27 @@ class SequenceMixin(object):
         return count
 
     def __getitem__(self, key):
+        print("get item", self.data[key])
+        #print("key:", key, "getitem", getattr(self, self.DATA_ATTR_NAME)[key])
+        print()
         try:
-            return self.data[key]
+            return getattr(self, self.DATA_ATTR_NAME)[key]
         except:
             raise IndexError
 
     def __setitem__(self, key, value):
         try:
-            self.data[key] = value
+            getattr(self, self.DATA_ATTR_NAME)[key] = value
         except:
             raise IndexError
 
     def __delitem__(self, key):
         try:
             temp_data = []
-            for d in self.data:
-                if not d == self.data[key]:
-                    temp_data.append(d)
-            self.data = temp_data
+            #for d in self.data:
+            #    if not d == getattr(self, self.DATA_ATTR_NAME)[key]:
+            #        temp_data.append(d)
+            #self.data = temp_data
         except:
             raise IndexError
 
