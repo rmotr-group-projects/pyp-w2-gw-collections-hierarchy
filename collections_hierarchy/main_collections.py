@@ -22,4 +22,4 @@ class Dict(HashableMixin,
     DATA_DEFAULT_INITIAL = {}
 
     def get_elements(self):
-        return self.data.items()
+        return list(self.data.items())

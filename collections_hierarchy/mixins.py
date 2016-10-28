@@ -39,6 +39,9 @@ class SequenceMixin(object):
             count += 1
         return count
 
+    def count(self):
+        return self.__len__()
+
     def __getitem__(self, key):
         return getattr(self, self.DATA_ATTR_NAME)[key]
 
@@ -60,7 +63,7 @@ class RepresentableMixin(object):
 
     def __str__(self):
         # Will rely on the iterator
-        pass
+        return '[{}]'.format(", ".join(str(e) for e in getattr(self, self.DATA_ATTR_NAME))) if getattr(self, self.DATA_ATTR_NAME) else "[]"
 
 
 class ConstructibleMixin(object):
@@ -73,10 +76,12 @@ class ConstructibleMixin(object):
 
 class OperableMixin(object):
     def __add__(self, other):
-        pass
+        obj = type(self)()
+        obj.data = getattr(self, self.DATA_ATTR_NAME) + getattr(other, other.DATA_ATTR_NAME)
+        return obj
 
     def __iadd__(self, other):
-        pass
+        return self + other
 
 
 class AppendableMixin(object):
@@ -87,15 +92,18 @@ class AppendableMixin(object):
 
 class HashableMixin(object):
     def keys(self):
-        pass
+        return getattr(self, self.DATA_ATTR_NAME).keys()
 
     def values(self):
-        pass
+        return getattr(self, self.DATA_ATTR_NAME).values()
 
     def items(self):
-        pass
+        return getattr(self, self.DATA_ATTR_NAME).items()
 
 
 class IndexableMixin(object):
     def index(self, x):
-        pass
+        for i, e in enumerate(getattr(self, self.DATA_ATTR_NAME)):
+            if e == x:
+                return i
+        raise ValueError
