@@ -22,9 +22,7 @@ class SequenceMixin(object):
         if not hasattr(self, "my_iter"):
             self.my_iter = 0
 
-        #print("my_iter:", self.my_iter)
         if self.my_iter < len(self.get_elements()):
-            #print(self.get_elements()[self.my_iter])
             n = self.get_elements()[self.my_iter]
             self.my_iter += 1
             return n
@@ -42,33 +40,17 @@ class SequenceMixin(object):
         return count
 
     def __getitem__(self, key):
-        print("get item", self.data[key])
-        #print("key:", key, "getitem", getattr(self, self.DATA_ATTR_NAME)[key])
-        print()
-        try:
-            return getattr(self, self.DATA_ATTR_NAME)[key]
-        except:
-            raise IndexError
+        return getattr(self, self.DATA_ATTR_NAME)[key]
 
     def __setitem__(self, key, value):
-        try:
-            getattr(self, self.DATA_ATTR_NAME)[key] = value
-        except:
-            raise IndexError
+        getattr(self, self.DATA_ATTR_NAME)[key] = value
 
     def __delitem__(self, key):
-        try:
-            temp_data = []
-            #for d in self.data:
-            #    if not d == getattr(self, self.DATA_ATTR_NAME)[key]:
-            #        temp_data.append(d)
-            #self.data = temp_data
-        except:
-            raise IndexError
+        del getattr(self, self.DATA_ATTR_NAME)[key]
 
     def __contains__(self, item):
         # Will rely on the iterator
-        return item in self.data
+        return item in getattr(self, self.DATA_ATTR_NAME)
 
 
 class RepresentableMixin(object):
@@ -100,7 +82,7 @@ class OperableMixin(object):
 class AppendableMixin(object):
     def append(self, elem):
         # Relies on DATA_ATTR_NAME = 'data'
-        return self.data.append(elem)
+        return getattr(self, self.DATA_ATTR_NAME).append(elem)
 
 
 class HashableMixin(object):
