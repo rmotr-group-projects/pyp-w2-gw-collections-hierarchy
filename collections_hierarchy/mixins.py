@@ -35,7 +35,7 @@ class SequenceMixin(object):
         # Will rely on the iterator
         # can't do len(self.data)
         count = 0
-        for d in self.data:
+        for d in getattr(self, self.DATA_ATTR_NAME):
             count += 1
         return count
 
