@@ -13,7 +13,7 @@ class DictTestCase(unittest.TestCase):
             d1['hello']
 
     def test_dict_iter(self):
-        d1 = Dict({'a': 1, 'b': 2})
+        d1 = Dict({'a': 1, 'b': 2}) #{'a': 1, 'b': 2}
         six.assertCountEqual(self, [key for key in d1], ['a', 'b'])
 
     def test_dict_contains(self):

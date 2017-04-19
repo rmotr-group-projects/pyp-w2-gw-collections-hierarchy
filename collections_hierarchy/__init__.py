@@ -1,2 +1,2 @@
-from .main_collections import *
+from .main import *
 from .exceptions import *

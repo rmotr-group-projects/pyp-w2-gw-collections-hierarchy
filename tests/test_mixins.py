@@ -95,28 +95,31 @@ class ComparableMixinTestCase(unittest.TestCase):
 class SequenceMixinTestCase(unittest.TestCase):
     def test_iterator_next(self):
         l = SequenceMixinList(['hello', 9, 'Python'])
-
-        self.assertEqual(next(l), 'hello')
-        self.assertEqual(next(l), 9)
-        self.assertEqual(next(l), 'Python')
+        
+        it = iter(l)
+        self.assertEqual(next(it), 'hello')
+        self.assertEqual(next(it), 9)
+        self.assertEqual(next(it), 'Python')
 
         with self.assertRaises(StopIteration):
-            next(l)
+            next(it)
 
         d = SequenceMixinDict({'a': 1, 'b': 2})
         items = list(d.data.items())
 
-        self.assertEqual(next(d), items[0])
-        self.assertEqual(next(d), items[1])
+        dit = iter(items)
+        self.assertEqual(next(dit), items[0])
+        self.assertEqual(next(dit), items[1])
 
         with self.assertRaises(StopIteration):
-            next(d)
+            next(dit)
 
     def test_iterator_is_rewinded(self):
-        l = SequenceMixinList(['hello', 9, 'Python'])
-        self.assertEqual(next(l), 'hello')
+        l = SequenceMixinList(['hello', 9, 'Python'])   
         it = iter(l)
         self.assertEqual(next(it), 'hello')
+        it2 = iter(l)
+        self.assertEqual(next(it2), 'hello')
 
         d = SequenceMixinDict({'a': 1, 'b': 2})
         items = list(d.data.items())
