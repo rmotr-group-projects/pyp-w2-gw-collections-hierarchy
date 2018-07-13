@@ -32,9 +32,10 @@ setup(
     packages=['collections_hierarchy'],
     maintainer='rmotr.com',
     tests_require=[
-        'pytest==2.9.1',
+        'pytest==3.0.2',
         'pytest-cov==2.2.1',
         'coverage==4.0.3',
+        'six==1.10.0',
     ],
     zip_safe=False,
     cmdclass={'test': PyTest},

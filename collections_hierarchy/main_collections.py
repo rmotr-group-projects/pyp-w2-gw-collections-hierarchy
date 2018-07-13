@@ -9,9 +9,13 @@ class List(ComparableMixin,
            IndexableMixin,
            AppendableMixin):
     DATA_DEFAULT_INITIAL = []
-
+    
+    def count(self):
+        return len(self)
+    
     def get_elements(self):
-        pass
+        return self.data
+    
 
 
 class Dict(HashableMixin,
@@ -22,4 +26,8 @@ class Dict(HashableMixin,
     DATA_DEFAULT_INITIAL = {}
 
     def get_elements(self):
-        pass
+        return list(self.data.keys())
+    
+    def count(self):
+        return len(self)
+    
